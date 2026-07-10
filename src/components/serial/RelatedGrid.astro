@@ -1,0 +1,66 @@
+---
+// "More from Serial" full-bleed link grid — also reused as-is for the
+// /serial index/landing page's article listing, just with a different
+// heading.
+//
+// `locked` items render as a <button data-paywall> instead of a real <a>
+// — Serial's Patreon-style gate (see components/serial/Paywall.astro)
+// intercepts clicks on any [data-paywall] element globally, so this
+// component doesn't need to know anything about the modal itself, just
+// which items should trigger it instead of navigating.
+interface Item {
+	href: string;
+	category: string;
+	title: string;
+	image?: { src: string; alt: string };
+	placeholder?: string[];
+	locked?: boolean;
+}
+
+interface Props {
+	heading: string;
+	items: Item[];
+}
+
+const { heading, items } = Astro.props;
+---
+
+<div class="more-h">
+	<span class="caps">{heading}</span>
+</div>
+<div class="rgrid">
+	{
+		items.map((item) =>
+			item.locked ? (
+				<button type="button" class="rcard locked" data-paywall aria-haspopup="dialog">
+					{item.image ? (
+						<img src={item.image.src} alt={item.image.alt} loading="lazy" decoding="async" />
+					) : (
+						<div class="ph" aria-hidden="true">
+							<span set:html={(item.placeholder ?? ["[ IMG ]"]).join("<br>")} />
+						</div>
+					)}
+					<span class="lock caps">Members</span>
+					<div class="lab">
+						<span class="cat">{item.category}</span>
+						<div class="t">{item.title}</div>
+					</div>
+				</button>
+			) : (
+				<a class="rcard" href={item.href}>
+					{item.image ? (
+						<img src={item.image.src} alt={item.image.alt} loading="lazy" decoding="async" />
+					) : (
+						<div class="ph" aria-hidden="true">
+							<span set:html={(item.placeholder ?? ["[ IMG ]"]).join("<br>")} />
+						</div>
+					)}
+					<div class="lab">
+						<span class="cat">{item.category}</span>
+						<div class="t">{item.title}</div>
+					</div>
+				</a>
+			)
+		)
+	}
+</div>

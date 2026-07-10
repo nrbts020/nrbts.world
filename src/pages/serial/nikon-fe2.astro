@@ -1,0 +1,324 @@
+---
+// Serial — "The Nikon FE2" gear review.
+// Demo article proving out the component template end to end. Content
+// ported directly from the reference mockup (Serial_FE2_ando.html) the
+// design system was supplied with. Every tile now uses a real photo,
+// including the Civil War film-still (user-sourced, dropped into
+// _incoming as "civil war jessie fe2.webp").
+import SerialLayout from "../../layouts/SerialLayout.astro";
+import Nav from "../../components/serial/Nav.astro";
+import Hero from "../../components/serial/Hero.astro";
+import ImageGrid from "../../components/serial/ImageGrid.astro";
+import ArticleSection from "../../components/serial/ArticleSection.astro";
+import PullQuote from "../../components/serial/PullQuote.astro";
+import LensSpec from "../../components/serial/LensSpec.astro";
+import RatingStrip from "../../components/serial/RatingStrip.astro";
+import RelatedGrid from "../../components/serial/RelatedGrid.astro";
+import Paywall from "../../components/serial/Paywall.astro";
+import Footer from "../../components/serial/Footer.astro";
+---
+
+<SerialLayout
+	title="The Nikon FE2 — the unsung hero of Civil War — Serial"
+	description="A working review of the Nikon FE2: the shutter, three Nikkors on test, and a note on shooting Portra 800."
+>
+	<Nav />
+
+	<Hero
+		kicker="Gear / 35mm"
+		category="Review"
+		title="The Nikon FE2 — the unsung hero of Civil War"
+		image={{ src: "/images/serial/hero-fe2-topplate.jpg", alt: "Close-up of the Nikon FE2 top plate, showing the FE2 nameplate and shutter speed dial" }}
+	/>
+
+	<div class="wrap">
+		<div class="section" style="padding-top:56px">
+			<p class="lede">
+				<span class="drop">In light of how much camera nerdery hides inside a war film,</span> the
+				most quietly capable body in Civil War (2024) isn't a prop — it's the Nikon FE2 slung around
+				Jessie's neck. A mechanical-hearted 35mm SLR that keeps working after the batteries die,
+				syncs faster than it should, and steals a scene from Cailee Spaeny without saying a word.
+			</p>
+		</div>
+	</div>
+
+	<ImageGrid
+		variant="2"
+		tiles={[
+			{
+				tag: "FE2",
+				image: { src: "/images/serial/fe2-front-50mm.jpg", alt: "The Nikon FE2 with the Nikkor 50mm 1.4 mounted" },
+			},
+			{
+				tag: "Civil War '24",
+				image: { src: "/images/serial/civil-war-jessie.jpg", alt: "Cailee Spaeny as Jessie in Civil War (2024), shooting the Nikon FE2" },
+			},
+		]}
+	/>
+
+	<ArticleSection number="01" title="The Body">
+		<p>
+			The headline trick is the shutter — a titanium-bladed unit that tops out at 1/4000 and,
+			crucially, flash-syncs at 1/250. That's unusually quick for 1983, and it's what makes the
+			FE2 a working tool rather than a nostalgia object: you can drag daylight down with fast glass
+			wide open, and balance fill-flash against a bright sky without fighting the sync.
+		</p>
+		<p>
+			It's aperture-priority with a proper manual mode, and the mechanical heart means the shutter
+			still fires at 1/250 if the batteries give out mid-roll — the meter goes dark, the picture
+			doesn't. Compact, dense, honest in the hand. Nothing about it tries to impress you, which is
+			exactly why it does.
+		</p>
+	</ArticleSection>
+
+	<PullQuote
+		quote="The camera that keeps working after the meter dies, the flash misses, and the moment refuses to wait."
+	/>
+
+	<ArticleSection number="02" title="Glass — Three Nikkors on Test">
+		<p style="margin-bottom:20px">
+			A body is only as good as what you hang on it, and the FE2's F-mount opens onto decades of
+			Nikkor glass. I've been living with three: a nifty-fifty, a modern-ish wide, and a genuinely
+			old character piece.
+		</p>
+	</ArticleSection>
+
+	<ImageGrid
+		variant="wide"
+		tiles={[
+			{
+				aspect: "16 / 6",
+				image: {
+					src: "/images/serial/three-nikkors.jpg",
+					alt: "Three Nikkor lenses lined up in front of the FE2 body: the 24mm 2.8, 50mm 1.4, and vintage 28mm f/2",
+				},
+			},
+		]}
+	/>
+
+	<LensSpec
+		name="Nikkor 50mm 1:1.4"
+		sn="S/N 5161507"
+		rows={[
+			{ k: "Aperture", v: "f/1.4" },
+			{ k: "Use", v: "Everyday / low light" },
+		]}
+		verdict="The safe keeper"
+	>
+		The default answer, and a good one. Fast enough to shoot Portra 800 indoors without flinching;
+		classic Nikon rendering — a touch of glow wide open, clinical by f/2.8. The lens you leave on
+		when you don't know what the day holds.
+	</LensSpec>
+
+	<LensSpec
+		name="Nikkor 24mm 1:2.8"
+		sn="S/N 650791"
+		rows={[
+			{ k: "Aperture", v: "f/2.8" },
+			{ k: "Use", v: "Street / reportage" },
+		]}
+		verdict="Current favourite"
+	>
+		My favourite so far. Wide enough to put you inside the scene rather than observing it, but not
+		so wide it distorts — the focal length that makes street and documentary work feel present. If I
+		could keep one, it's this, no hesitation.
+	</LensSpec>
+
+	<LensSpec
+		name="Nikkor-N Auto 28mm f/2"
+		sn="Nippon Kogaku &middot; No. 281872"
+		rows={[
+			{ k: "Aperture", v: "f/2" },
+			{ k: "Era", v: "Vintage Nippon Kogaku" },
+		]}
+		verdict="Jury still out"
+	>
+		The wildcard — a genuinely old Nippon Kogaku piece with the build and character to match. On
+		paper the sweet spot between the 24 and the 50; in practice I haven't run enough rolls through it
+		to call it. Early frames promising. Verdict pending.
+	</LensSpec>
+
+	<ImageGrid
+		variant="3"
+		tiles={[
+			{
+				tag: "50 / 1.4",
+				image: { src: "/images/serial/lens-50mm.jpg", alt: "A desk lit only by a glowing monitor, shot on the Nikkor 50mm 1.4" },
+			},
+			{
+				tag: "24 / 2.8",
+				image: { src: "/images/serial/lens-24mm.jpg", alt: "A red sports car parked on a dusk street, shot on the Nikkor 24mm 2.8" },
+			},
+			{
+				tag: "28 / 2",
+				image: { src: "/images/serial/lens-28mm.jpg", alt: "Plants against a bare concrete wall, shot on the vintage Nikkor-N 28mm f/2" },
+			},
+		]}
+	/>
+
+	<RatingStrip
+		ratings={[
+			{ label: "Build", value: "9.5" },
+			{ label: "Handling", value: "9.0" },
+			{ label: "Value", value: "8.5" },
+			{ label: "Verdict", value: "Keeper" },
+		]}
+	/>
+
+	<ArticleSection number="03" title="A Note on Film — Portra 800">
+		<p>
+			A body and glass are half the picture; the other half is what you load. Right now I shoot
+			<a href="#">Kodak Portra 800</a> almost exclusively, and the FE2 is the perfect delivery system
+			for it. The low-light performance is the reason — at box speed it holds shadow detail and skin
+			tones no faster stock touches, and the colours are simply gorgeous, warm without being fake.
+		</p>
+		<p>
+			Yes, it blows out in broad daylight and reads overexposed — but I've come to love the vibe on
+			those frames too. That golden, slightly-too-bright wash is a look, not a flaw. The only real
+			problem is scarcity: true ISO 800 alternatives are thin on the ground, I don't get on with
+			Cinestill, and there's not much to switch to. My wallet isn't thrilled. The results make the
+			argument anyway.
+		</p>
+		<p>
+			The one exception lives in my pocket — the point-and-shoot runs <a href="#">Ultramax 400</a>,
+			because there's no sense feeding premium stock to a fixed lens. Everything else gets the good
+			stuff.
+		</p>
+	</ArticleSection>
+
+	<ImageGrid
+		variant="2"
+		tiles={[
+			{
+				image: {
+					src: "/images/serial/fe2-back-portra.jpg",
+					alt: "The back of the FE2, with a Portra 800 box-end tucked into the film-type reminder holder",
+				},
+			},
+			{
+				image: {
+					src: "/images/serial/film-stock.jpg",
+					alt: "A Kodak Portra 800 box among other 35mm film stocks in the camera case",
+				},
+			},
+		]}
+	/>
+
+	<ImageGrid
+		variant="wide"
+		tiles={[
+			{
+				tag: "Portra 800",
+				aspect: "16 / 6",
+				image: {
+					src: "/images/serial/portra-wide.jpg",
+					alt: "A hazy, warm-lit canyon vista, shot on Portra 800",
+				},
+			},
+		]}
+	/>
+
+	<ArticleSection number="04" title="A Few More Frames">
+		<p>
+			The rest of the roll, for anyone who made it this far — no lens notes, just the shots that
+			held up.
+		</p>
+	</ArticleSection>
+
+	<ImageGrid
+		variant="3"
+		tiles={[
+			{
+				image: {
+					src: "/images/serial/roll-desert.jpg",
+					alt: "A lone figure and rock spire silhouetted against a long desert shadow",
+				},
+			},
+			{
+				image: {
+					src: "/images/serial/roll-museum.jpg",
+					alt: "A silhouetted figure looking up at a glowing Japanese text light installation",
+				},
+			},
+			{
+				image: {
+					src: "/images/serial/roll-coffee.jpg",
+					alt: "A barista pouring coffee at a small counter, lit by a single warm light",
+				},
+			},
+		]}
+	/>
+
+	<RelatedGrid
+		heading="More from Serial"
+		items={[
+			{
+				href: "#",
+				category: "Music",
+				title: "A Short History of DJ Shadow",
+				image: { src: "/images/serial/dj-shadow.jpg", alt: "DJ Shadow — Midnight in a Perfect World single artwork" },
+				locked: true,
+			},
+			{
+				href: "#",
+				category: "Film",
+				title: "Squaring the Circle: The Story of Hipgnosis — Reviewed",
+				image: { src: "/images/serial/hipgnosis-poster.jpg", alt: "Japanese theatrical poster for Squaring the Circle: The Story of Hipgnosis" },
+				locked: true,
+			},
+			{
+				href: "#",
+				category: "Culture",
+				title: "Ranking Amsterdam's Cinemas",
+				image: { src: "/images/serial/eye-film-museum.jpg", alt: "The EYE Film Museum on the IJ waterfront, Amsterdam, lit at dusk" },
+				locked: true,
+			},
+			{
+				href: "#",
+				category: "Interview",
+				title: "Siebrand — Black Gold, Vinyl & Coffee",
+				image: { src: "/images/serial/black-gold-siebrand.jpg", alt: "Siebrand standing outside Black Gold, Vinyl & Coffee in Amsterdam" },
+				locked: true,
+			},
+			{
+				href: "#",
+				category: "Drive",
+				title: "Driving a Nissan S12 Silvia Through Hakone Roads",
+				image: { src: "/images/serial/s12-silvia.jpg", alt: "The front fender and wheel of a white Nissan S12 Silvia" },
+				locked: true,
+			},
+			{
+				href: "#",
+				category: "Esports",
+				title: "NRG Wins VALORANT Champions 2025",
+				image: { src: "/images/serial/nrg-champions.jpg", alt: "An NRG Valorant player celebrating on stage" },
+				locked: true,
+			},
+			{
+				href: "#",
+				category: "Sports",
+				title: "Ma Long and Xu Xin — Two Ends of the Sports Psychology Spectrum",
+				image: { src: "/images/serial/malong-xuxin.jpg", alt: "Table tennis players Ma Long and Xu Xin standing together in China national team kits" },
+				locked: true,
+			},
+			{
+				href: "#",
+				category: "Books",
+				title: "Neuromancer Walked So The Matrix Could Run — An Analysis",
+				image: { src: "/images/serial/neuromancer-cover.jpg", alt: "Cover of William Gibson's Neuromancer, Ace Science Fiction edition" },
+				locked: true,
+			},
+			{
+				href: "#",
+				category: "Food",
+				title: "Noma, Copenhagen — Reviewed",
+				image: { src: "/images/serial/noma-copenhagen.jpg", alt: "The wood and brick exterior of Noma restaurant, Copenhagen, surrounded by tall grass" },
+				locked: true,
+			},
+		]}
+	/>
+
+	<Footer />
+
+	<Paywall />
+</SerialLayout>

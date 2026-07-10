@@ -1,0 +1,175 @@
+---
+// Shared "members only" gate. Serial never actually shipped a paywall, but
+// "your favorite indie mag ran on a Patreon" is part of the joke this
+// recreation leans into — most of the index is real headlines with no
+// article behind them yet, so a gate reads more honest than a dead link.
+// Any element anywhere on a Serial page carrying [data-paywall] (see
+// RelatedGrid's `locked` items) opens this instead of navigating. One
+// instance lives per page — mount it once, next to <Footer />.
+//
+// The Nikon FE2 piece is the one article that's actually finished, so it's
+// offered here as the free sample rather than leaving the visitor stuck.
+---
+
+<div class="paywall-overlay" id="paywall" aria-hidden="true">
+	<div class="paywall-card" role="dialog" aria-modal="true" aria-labelledby="paywall-title">
+		<button type="button" class="paywall-x" id="paywall-close" aria-label="Close">&times;</button>
+		<span class="caps paywall-badge">Serial+</span>
+		<h3 id="paywall-title" class="brandf">Members-only article</h3>
+		<p>This one's for Serial+ subscribers. Join to read the full archive — or start with a free sample below.</p>
+		<a class="paywall-sample" href="/serial/nikon-fe2">
+			<span class="paywall-sample-tag caps">Free sample</span>
+			<span class="paywall-sample-title">The Nikon FE2 — the unsung hero of Civil War</span>
+		</a>
+		<button type="button" class="paywall-dismiss" id="paywall-dismiss">Maybe later</button>
+	</div>
+</div>
+
+<script>
+	const overlay = document.getElementById("paywall");
+	const closeBtn = document.getElementById("paywall-close");
+	const dismissBtn = document.getElementById("paywall-dismiss");
+
+	function openPaywall() {
+		overlay?.classList.add("open");
+		overlay?.setAttribute("aria-hidden", "false");
+		document.body.style.overflow = "hidden";
+	}
+	function closePaywall() {
+		overlay?.classList.remove("open");
+		overlay?.setAttribute("aria-hidden", "true");
+		document.body.style.overflow = "";
+	}
+
+	document.addEventListener("click", (e) => {
+		const trigger = (e.target as HTMLElement)?.closest("[data-paywall]");
+		if (trigger) {
+			e.preventDefault();
+			openPaywall();
+		}
+	});
+	overlay?.addEventListener("click", (e) => {
+		if (e.target === overlay) closePaywall();
+	});
+	closeBtn?.addEventListener("click", closePaywall);
+	dismissBtn?.addEventListener("click", closePaywall);
+	document.addEventListener("keydown", (e) => {
+		if (e.key === "Escape") closePaywall();
+	});
+</script>
+
+<style>
+	.paywall-overlay {
+		position: fixed;
+		inset: 0;
+		background: rgba(27, 30, 32, 0.72);
+		backdrop-filter: blur(3px);
+		-webkit-backdrop-filter: blur(3px);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 24px;
+		z-index: 200;
+		opacity: 0;
+		pointer-events: none;
+		transition: opacity 0.18s ease;
+	}
+	.paywall-overlay.open {
+		opacity: 1;
+		pointer-events: auto;
+	}
+	.paywall-card {
+		position: relative;
+		background: var(--paper);
+		border: 1px solid var(--ink);
+		max-width: 420px;
+		width: 100%;
+		padding: 36px 30px 30px;
+		text-align: center;
+	}
+	.paywall-x {
+		position: absolute;
+		top: 12px;
+		right: 12px;
+		width: 28px;
+		height: 28px;
+		border: 1px solid var(--ink);
+		background: none;
+		font-size: 16px;
+		line-height: 1;
+		cursor: pointer;
+		color: var(--ink);
+	}
+	.paywall-x:hover {
+		background: var(--ink);
+		color: var(--paper);
+	}
+	.paywall-badge {
+		display: inline-block;
+		font-size: 10px;
+		border: 1px solid var(--ink);
+		padding: 3px 9px;
+		margin-bottom: 18px;
+	}
+	.paywall-card h3 {
+		font-size: 22px;
+		font-weight: 700;
+		text-transform: uppercase;
+		letter-spacing: 0.04em;
+		margin-bottom: 12px;
+	}
+	.paywall-card p {
+		font-size: 13.5px;
+		line-height: 1.6;
+		color: var(--ink2);
+		margin-bottom: 22px;
+	}
+	.paywall-sample {
+		display: block;
+		border: 1px solid var(--ink);
+		padding: 14px 16px;
+		text-decoration: none;
+		color: var(--ink);
+		margin-bottom: 14px;
+		text-align: left;
+		transition: background 0.15s ease, color 0.15s ease;
+	}
+	.paywall-sample:hover {
+		background: var(--ink);
+		color: var(--paper);
+	}
+	.paywall-sample-tag {
+		display: block;
+		font-size: 10px;
+		color: var(--mute);
+		margin-bottom: 6px;
+	}
+	.paywall-sample:hover .paywall-sample-tag {
+		color: inherit;
+		opacity: 0.7;
+	}
+	.paywall-sample-title {
+		display: block;
+		font-family: "Space Mono", monospace;
+		font-weight: 700;
+		font-size: 13px;
+		text-transform: uppercase;
+		letter-spacing: 0.04em;
+		line-height: 1.35;
+	}
+	.paywall-dismiss {
+		background: none;
+		border: none;
+		color: var(--mute);
+		font-family: "IBM Plex Mono", monospace;
+		font-size: 12px;
+		text-decoration: underline;
+		text-underline-offset: 3px;
+		cursor: pointer;
+	}
+	@media (max-width: 480px) {
+		.paywall-card {
+			padding: 30px 22px 24px;
+		}
+	}
+</style>

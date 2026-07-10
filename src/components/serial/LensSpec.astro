@@ -1,0 +1,43 @@
+---
+// Austere mono spec-sheet block — built for lens/gear reviews (the
+// Nikon FE2 piece uses three of these back to back) but generic enough
+// for any "name + spec rows + verdict" item. Copy is a slot so callers
+// can drop in links/emphasis the way the original prose does.
+interface SpecRow {
+	k: string;
+	v: string;
+}
+
+interface Props {
+	name: string;
+	sn: string;
+	rows: SpecRow[];
+	verdict?: string;
+}
+
+const { name, sn, rows, verdict } = Astro.props;
+---
+
+<div class="lens">
+	<div class="lh">
+		<span class="nm">{name}</span>
+		<span class="sn">{sn}</span>
+	</div>
+	{
+		rows.map((row) => (
+			<div class="lrow">
+				<span class="k">{row.k}</span>
+				<span>{row.v}</span>
+			</div>
+		))
+	}
+	<div class="lcopy">
+		<slot />
+		{verdict && (
+			<>
+				<br />
+				<span class="verdict">{verdict}</span>
+			</>
+		)}
+	</div>
+</div>

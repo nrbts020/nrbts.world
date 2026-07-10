@@ -1,0 +1,340 @@
+---
+// Uncancel 2020 — beats.dev
+// A dedicated page for the Uncancel 2020 exhibition, following the same
+// pattern as writing.astro/photography.astro: no Three.js scene (pure
+// content page, mobile-performance constraint), same type system/color
+// tokens as index.astro. Content reconstructed from archival Instagram
+// screenshots of the @uncancel_2020 account (event info card, artist
+// lineup card, and installation photography) — the event itself predates
+// this site and has no other surviving public record.
+---
+
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Uncancel 2020 — beats.dev</title>
+		<meta name="description" content="Uncancel 2020 — a four-day exhibition at Kunstkapel, Beatrixpark, giving locked-down artists a place to show their work." />
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Sora:wght@400;500;600&display=swap"
+			rel="stylesheet"
+		/>
+	</head>
+	<body>
+		<nav class="site-nav" aria-label="Section navigation">
+			<a href="/">&larr; beats.dev</a>
+		</nav>
+
+		<main class="content">
+			<section class="uc-hero">
+				<p class="mono eyebrow">UNCANCEL 2020</p>
+				<h1>A four-day exhibition, uncancelled</h1>
+				<p class="hero-sub">
+					Organized and curated in the middle of the pandemic, giving
+					locked-down artists a place to show their work when almost every
+					gallery was closed.
+				</p>
+				<ul class="uc-meta mono">
+					<li><span>When</span>4&ndash;6 September, 2020</li>
+					<li><span>Where</span>Kunstkapel, Beatrixpark</li>
+					<li><span>What</span>Photography, print, digital art &amp; 3D animation, fashion, installation</li>
+					<li><span>Party</span>Opening night &mdash; DJ set by Norbert Sauter</li>
+				</ul>
+			</section>
+
+			<section class="uc-artists panel-body">
+				<h2 class="group-label mono">artists</h2>
+				<ul class="uc-artist-list mono">
+					<li>Jasmine Benhaida</li>
+					<li>Janke Kolb</li>
+					<li>Leny Maris</li>
+					<li>Vera Meulendijks</li>
+					<li>Arthur Morasch</li>
+					<li>Anastasia Pirvu</li>
+					<li>Norbert Sauter</li>
+					<li>Guus Verelst</li>
+					<li>Rebecca W&ouml;rner</li>
+				</ul>
+			</section>
+
+			<section class="uc-gallery">
+				<figure class="photo">
+					<img
+						src="/images/uncancel/installation-view.jpg"
+						width="1400"
+						height="1399"
+						loading="eager"
+						decoding="async"
+						alt="Visitors walking through the vaulted Kunstkapel gallery space, photography hung along the curved wall"
+					/>
+					<figcaption class="mono">Installation view &middot; Kunstkapel</figcaption>
+				</figure>
+				<figure class="photo">
+					<img
+						src="/images/uncancel/norbert-diptych.jpg"
+						width="1400"
+						height="1399"
+						loading="lazy"
+						decoding="async"
+						alt="A black and white photography diptych by Norbert Sauter, a building and a car"
+					/>
+					<figcaption class="mono">Norbert Sauter &middot; photography diptych</figcaption>
+				</figure>
+				<figure class="photo">
+					<img
+						src="/images/uncancel/orb-light-installation.jpg"
+						width="1400"
+						height="1399"
+						loading="lazy"
+						decoding="async"
+						alt="Mirrored orb light installation by Leny Maris, suspended in the vaulted gallery space"
+					/>
+					<figcaption class="mono">Leny Maris &middot; orb light installation</figcaption>
+				</figure>
+				<figure class="photo">
+					<img
+						src="/images/uncancel/wall-installation.jpg"
+						width="1400"
+						height="1399"
+						loading="lazy"
+						decoding="async"
+						alt="A salon-style wall installation of prints and hanging sculptural pieces"
+					/>
+					<figcaption class="mono">Installation view &middot; prints &amp; sculpture</figcaption>
+				</figure>
+				<figure class="photo">
+					<img
+						src="/images/uncancel/framed-print.jpg"
+						width="1400"
+						height="1399"
+						loading="lazy"
+						decoding="async"
+						alt="A framed linoprint by Jasmine Benhaida on a gallery wall"
+					/>
+					<figcaption class="mono">Jasmine Benhaida &middot; linoprint</figcaption>
+				</figure>
+				<figure class="photo">
+					<img
+						src="/images/uncancel/decorative-plant.jpg"
+						width="1400"
+						height="1399"
+						loading="lazy"
+						decoding="async"
+						alt="A high-contrast black and white study of a plant in dramatic slatted light"
+					/>
+					<figcaption class="mono">Plant study</figcaption>
+				</figure>
+			</section>
+
+			<footer class="site-footer mono">
+				<a href="/">&larr; back to beats.dev</a>
+			</footer>
+		</main>
+
+		<style>
+			:root {
+				--bg: #05070a;
+				--teal: #0a9d9d;
+				--teal-bright: #7fe0e6;
+				--purple: #6a4fb6;
+				--text: #e6ecf0;
+				--text-dim: rgba(230, 236, 240, 0.7);
+				--sans: "Sora", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+				--mono: ui-monospace, "SF Mono", "Cascadia Code", "Roboto Mono", Consolas, monospace;
+				--display: "Chakra Petch", var(--sans);
+				--panel-bg: rgba(247, 250, 252, 0.94);
+				--panel-border: rgba(140, 160, 175, 0.4);
+				--panel-text: #14181d;
+				--panel-text-dim: #3d444b;
+				--cut: 22px;
+				--nav-bg: rgba(214, 52, 34, 0.34);
+				--nav-border: rgba(255, 255, 255, 0.2);
+				--nav-text: rgba(255, 241, 236, 0.85);
+			}
+
+			html,
+			body {
+				margin: 0;
+				padding: 0;
+				background: var(--bg);
+				color: var(--text);
+				font-family: var(--sans);
+			}
+			.mono {
+				font-family: var(--mono);
+			}
+
+			.site-nav {
+				position: fixed;
+				top: max(14px, env(safe-area-inset-top));
+				left: max(14px, env(safe-area-inset-left));
+				display: flex;
+				gap: 4px;
+				padding: 6px;
+				background: var(--nav-bg);
+				border: 1px solid var(--nav-border);
+				border-radius: 2px;
+				backdrop-filter: blur(6px);
+				-webkit-backdrop-filter: blur(6px);
+				z-index: 10;
+			}
+			.site-nav a {
+				color: var(--nav-text);
+				text-decoration: none;
+				font: 500 12px/1 var(--mono);
+				letter-spacing: 0.02em;
+				padding: 8px 12px;
+				touch-action: manipulation;
+			}
+			.site-nav a:hover,
+			.site-nav a:focus-visible {
+				color: #fff;
+				background: rgba(255, 255, 255, 0.16);
+			}
+
+			.content {
+				max-width: 1080px;
+				margin: 0 auto;
+				padding: 96px max(24px, env(safe-area-inset-left)) 48px;
+			}
+
+			.uc-hero {
+				margin-bottom: 32px;
+				max-width: 680px;
+			}
+			.eyebrow {
+				color: var(--teal-bright);
+				letter-spacing: 0.16em;
+				font-size: 12px;
+				margin: 0 0 12px;
+			}
+			.uc-hero h1 {
+				font-family: var(--display);
+				font-weight: 700;
+				font-size: clamp(1.9rem, 5.2vw, 2.8rem);
+				line-height: 1.1;
+				margin: 0 0 14px;
+			}
+			.hero-sub {
+				color: var(--text-dim);
+				line-height: 1.6;
+				margin: 0 0 24px;
+			}
+			.uc-meta {
+				list-style: none;
+				margin: 0;
+				padding: 0;
+				display: flex;
+				flex-direction: column;
+				gap: 6px;
+			}
+			.uc-meta li {
+				font-size: 0.88rem;
+				color: var(--text-dim);
+			}
+			.uc-meta li span {
+				display: inline-block;
+				min-width: 64px;
+				color: var(--teal-bright);
+			}
+
+			.uc-artists {
+				background: var(--panel-bg);
+				color: var(--panel-text);
+				border: 1px solid var(--panel-border);
+				clip-path: polygon(0 0, calc(100% - var(--cut)) 0, 100% var(--cut), 100% 100%, 0 100%);
+				padding: 28px 32px;
+				margin-bottom: 40px;
+			}
+			.uc-artists .group-label {
+				display: flex;
+				align-items: center;
+				gap: 8px;
+				font-size: 12px;
+				letter-spacing: 0.1em;
+				color: var(--teal);
+				margin: 0 0 16px;
+			}
+			.uc-artist-list {
+				list-style: none;
+				margin: 0;
+				padding: 0;
+				display: grid;
+				grid-template-columns: repeat(3, 1fr);
+				gap: 8px 16px;
+			}
+			.uc-artist-list li {
+				font-size: 0.88rem;
+				color: var(--panel-text-dim);
+			}
+			.uc-artist-list li::before {
+				content: "> ";
+				color: var(--teal);
+			}
+
+			.uc-gallery {
+				display: grid;
+				grid-template-columns: repeat(3, 1fr);
+				gap: 20px;
+			}
+			.photo {
+				margin: 0;
+				border: 1px solid var(--panel-border);
+				background: #000;
+				overflow: hidden;
+			}
+			.photo img {
+				display: block;
+				width: 100%;
+				height: auto;
+			}
+			.photo figcaption {
+				padding: 10px 12px;
+				font-size: 11px;
+				letter-spacing: 0.03em;
+				color: var(--text-dim);
+				background: rgba(255, 255, 255, 0.04);
+				border-top: 1px solid var(--panel-border);
+			}
+
+			.site-footer {
+				text-align: center;
+				margin-top: 56px;
+			}
+			.site-footer a {
+				color: var(--teal-bright);
+				text-decoration: none;
+				font-size: 13px;
+			}
+			.site-footer a:hover {
+				text-decoration: underline;
+			}
+
+			@media (max-width: 800px) {
+				.uc-gallery {
+					grid-template-columns: repeat(2, 1fr);
+				}
+				.uc-artist-list {
+					grid-template-columns: repeat(2, 1fr);
+				}
+			}
+
+			@media (max-width: 640px) {
+				.content {
+					padding: 88px 18px 40px;
+				}
+				.uc-artists {
+					padding: 22px;
+				}
+				.uc-gallery {
+					grid-template-columns: 1fr;
+				}
+				.uc-artist-list {
+					grid-template-columns: 1fr;
+				}
+			}
+		</style>
+	</body>
+</html>

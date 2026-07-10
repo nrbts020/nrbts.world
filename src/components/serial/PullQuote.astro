@@ -1,0 +1,11 @@
+---
+// Centered display pull-quote in Archivo — the one place the design
+// system allows a larger geometric-sans moment inside the mono-heavy body.
+interface Props {
+	quote: string;
+}
+
+const { quote } = Astro.props;
+---
+
+<blockquote class="pull">&ldquo;{quote}&rdquo;</blockquote>

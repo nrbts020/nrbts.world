@@ -1,0 +1,52 @@
+---
+// Full-bleed edge-to-edge image grid — the sabukaru signature: tiles butt
+// against each other with hairline dividers, no gap, no rounding. Three
+// variants (2-up, 3-up, single wide panel); each tile takes either a real
+// {src, alt} or a `placeholder` line array until real photography exists.
+interface Tile {
+	tag?: string;
+	image?: { src: string; alt: string };
+	placeholder?: string[];
+	aspect?: string;
+}
+
+interface Props {
+	variant: "2" | "3" | "wide";
+	tiles: Tile[];
+}
+
+const { variant, tiles } = Astro.props;
+const gridClass = variant === "2" ? "grid2" : variant === "3" ? "grid3" : "gridwide";
+const defaultAspect = variant === "wide" ? "16 / 6" : "4 / 5";
+---
+
+<div class={`${gridClass} bleed-top`}>
+	{
+		tiles.map((tile) => (
+			<div
+				class={`tile${variant === "wide" ? " wide" : ""}`}
+				style={`aspect-ratio: ${tile.aspect ?? defaultAspect};`}
+			>
+				{tile.image ? (
+					<img src={tile.image.src} alt={tile.image.alt} loading="lazy" decoding="async" />
+				) : (
+					<div class="ph" aria-hidden="true">
+						<span set:html={(tile.placeholder ?? ["[ IMAGE ]"]).join("<br>")} />
+					</div>
+				)}
+				{tile.tag && <span class="tag">{tile.tag}</span>}
+			</div>
+		))
+	}
+</div>
+
+<style>
+	/* Every grid instance sits directly under a hairline (matches the
+	   reference's `border-top:1px solid var(--ink)` inline override on
+	   each grid usage) — kept as a shared modifier class rather than
+	   repeating inline styles per call site. */
+	.bleed-top {
+		border-top: 1px solid var(--ink);
+		margin-top: 56px;
+	}
+</style>

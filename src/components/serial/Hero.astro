@@ -1,0 +1,35 @@
+---
+// Full-bleed article hero. Accepts a real {src, alt} once photography
+// exists; until then `placeholder` (array of lines) renders the same
+// bracket-labelled placeholder convention as the rest of the site.
+interface Props {
+	kicker: string;
+	category: string;
+	title: string;
+	image?: { src: string; alt: string };
+	placeholder?: string[];
+}
+
+const { kicker, category, title, image, placeholder = ["[ HERO IMAGE ]"] } = Astro.props;
+---
+
+<section class="hero">
+	{
+		image ? (
+			<img src={image.src} alt={image.alt} loading="eager" decoding="async" />
+		) : (
+			<div class="ph" aria-hidden="true">
+				<span set:html={placeholder.join("<br>")} />
+			</div>
+		)
+	}
+	{/* Scrim sits between the photo and the text (DOM order controls the
+	    stacking here) so the dark kicker/category/title stay legible no
+	    matter what's underneath — a real photo's tonal range isn't under
+	    our control per-article, so this can't rely on any one image being
+	    light where the text lands. */}
+	<div class="scrim" aria-hidden="true"></div>
+	<div class="kicker">{kicker}</div>
+	<div class="cat">{category}</div>
+	<h1 class="htitle">{title}</h1>
+</section>

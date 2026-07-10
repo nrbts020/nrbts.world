@@ -1,0 +1,28 @@
+---
+// Boxed verdict strip — N equal columns (defaults to 4 in the reference,
+// but the grid-template-columns is derived from however many ratings are
+// passed so the component isn't locked to a fixed count).
+interface Rating {
+	label: string;
+	value: string;
+}
+
+interface Props {
+	ratings: Rating[];
+}
+
+const { ratings } = Astro.props;
+---
+
+<div class="wrap">
+	<div class="rate" style={`grid-template-columns: repeat(${ratings.length}, 1fr);`}>
+		{
+			ratings.map((r) => (
+				<div class="rc">
+					<div class="rl">{r.label}</div>
+					<div class="rv">{r.value}</div>
+				</div>
+			))
+		}
+	</div>
+</div>

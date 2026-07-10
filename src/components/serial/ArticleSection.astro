@@ -1,0 +1,21 @@
+---
+// Numbered section header ("01 / The Body") over a hairline rule, with a
+// constrained-width prose slot underneath. Content (paragraphs, links)
+// is passed as children so callers keep full control of markup/copy.
+interface Props {
+	number: string;
+	title: string;
+}
+
+const { number, title } = Astro.props;
+---
+
+<div class="wrap">
+	<div class="shead">
+		<span class="n">{number}</span>
+		<h2>{title}</h2>
+	</div>
+	<div class="body">
+		<slot />
+	</div>
+</div>

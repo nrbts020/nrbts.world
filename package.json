@@ -1,0 +1,25 @@
+{
+  "name": "beats-dev-portfolio",
+  "type": "module",
+  "version": "0.1.0",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "astro": "^4.16.0",
+    "three": "^0.169.0",
+    "suncalc": "^1.9.0"
+  },
+  "devDependencies": {
+    "@types/three": "^0.169.0",
+    "@types/suncalc": "^1.9.0",
+    "typescript": "^5.6.0"
+  }
+}

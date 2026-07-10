@@ -1,0 +1,271 @@
+---
+// Photography — beats.dev
+// A dedicated gallery page for Norbert's film photography, following the
+// same pattern as writing.astro: no Three.js scene (pure content page,
+// mobile-performance constraint), same type system/color tokens as
+// index.astro so it still reads as the same site. A photography edit
+// needs more than the one-hero-image-per-card budget the project grid
+// allows, hence its own page rather than a mini-gallery bolted onto the
+// "personal" project card.
+//
+// All images loading="lazy" + decoding="async" except the first (above
+// the fold on desktop) — a gallery page is the one place on the site
+// that's inherently image-heavy, so deferring offscreen fetches matters
+// more here than anywhere else.
+---
+
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Photography — beats.dev</title>
+		<meta name="description" content="Selected film photography by Norbert Sauter — architecture, city, and landscape." />
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Sora:wght@400;500;600&display=swap"
+			rel="stylesheet"
+		/>
+	</head>
+	<body>
+		<nav class="site-nav" aria-label="Section navigation">
+			<a href="/">&larr; beats.dev</a>
+		</nav>
+
+		<main class="content">
+			<section class="photo-hero">
+				<p class="mono eyebrow">PHOTOGRAPHY</p>
+				<h1>Selected film work</h1>
+				<p class="hero-sub">A tight edit — mostly architecture, city, and landscape.</p>
+			</section>
+
+			<section class="gallery">
+				<figure class="photo">
+					<img
+						src="/images/photography/brutalist-night.jpg"
+						width="1193"
+						height="1800"
+						loading="eager"
+						decoding="async"
+						alt="Geisel Library at night, its cantilevered concrete floors lit from within"
+					/>
+					<figcaption class="mono">Geisel Library &middot; San Diego</figcaption>
+				</figure>
+				<figure class="photo">
+					<img
+						src="/images/photography/red-rock-arch.jpg"
+						width="1193"
+						height="1800"
+						loading="lazy"
+						decoding="async"
+						alt="A sandstone arch formation against a clear blue sky, Utah"
+					/>
+					<figcaption class="mono">Sandstone arch &middot; Utah</figcaption>
+				</figure>
+				<figure class="photo">
+					<img
+						src="/images/photography/mission-dusk.jpg"
+						width="1193"
+						height="1800"
+						loading="lazy"
+						decoding="async"
+						alt="The Botanical Building at Balboa Park, with a palm tree at dusk, San Diego"
+					/>
+					<figcaption class="mono">Botanical Building &middot; Balboa Park, San Diego</figcaption>
+				</figure>
+				<figure class="photo">
+					<img
+						src="/images/photography/hoodoo-spire.jpg"
+						width="1193"
+						height="1800"
+						loading="lazy"
+						decoding="async"
+						alt="A tall hoodoo rock spire against a blue sky, Utah"
+					/>
+					<figcaption class="mono">Hoodoo spire &middot; Utah</figcaption>
+				</figure>
+				<figure class="photo">
+					<img
+						src="/images/photography/abstract-facade.jpg"
+						width="1193"
+						height="1800"
+						loading="lazy"
+						decoding="async"
+						alt="A church facade, San Diego"
+					/>
+					<figcaption class="mono">Church &middot; San Diego</figcaption>
+				</figure>
+				<figure class="photo">
+					<img
+						src="/images/photography/canyon-vista.jpg"
+						width="1193"
+						height="1800"
+						loading="lazy"
+						decoding="async"
+						alt="A wide canyon landscape vista, Utah"
+					/>
+					<figcaption class="mono">Canyon &middot; Utah</figcaption>
+				</figure>
+				<figure class="photo">
+					<img
+						src="/images/photography/record-shop-night.jpg"
+						width="1193"
+						height="1800"
+						loading="lazy"
+						decoding="async"
+						alt="A record shop window lit at night, Tokyo"
+					/>
+					<figcaption class="mono">Record shop &middot; Tokyo</figcaption>
+				</figure>
+				<figure class="photo">
+					<img
+						src="/images/photography/naoshima-stairwell.jpg"
+						width="1193"
+						height="1800"
+						loading="lazy"
+						decoding="async"
+						alt="A concrete stairwell at Benesse House Museum, Naoshima, designed by Tadao Ando"
+					/>
+					<figcaption class="mono">Benesse House Museum &middot; Naoshima</figcaption>
+				</figure>
+			</section>
+
+			<footer class="site-footer mono">
+				<a href="/">&larr; back to beats.dev</a>
+			</footer>
+		</main>
+
+		<style>
+			:root {
+				--bg: #05070a;
+				--teal: #0a9d9d;
+				--teal-bright: #7fe0e6;
+				--purple: #6a4fb6;
+				--text: #e6ecf0;
+				--text-dim: rgba(230, 236, 240, 0.7);
+				--sans: "Sora", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+				--mono: ui-monospace, "SF Mono", "Cascadia Code", "Roboto Mono", Consolas, monospace;
+				--display: "Chakra Petch", var(--sans);
+				--panel-border: rgba(140, 160, 175, 0.4);
+				--nav-bg: rgba(214, 52, 34, 0.34);
+				--nav-border: rgba(255, 255, 255, 0.2);
+				--nav-text: rgba(255, 241, 236, 0.85);
+			}
+
+			html,
+			body {
+				margin: 0;
+				padding: 0;
+				background: var(--bg);
+				color: var(--text);
+				font-family: var(--sans);
+			}
+			.mono {
+				font-family: var(--mono);
+			}
+
+			.site-nav {
+				position: fixed;
+				top: max(14px, env(safe-area-inset-top));
+				left: max(14px, env(safe-area-inset-left));
+				display: flex;
+				gap: 4px;
+				padding: 6px;
+				background: var(--nav-bg);
+				border: 1px solid var(--nav-border);
+				border-radius: 2px;
+				backdrop-filter: blur(6px);
+				-webkit-backdrop-filter: blur(6px);
+				z-index: 10;
+			}
+			.site-nav a {
+				color: var(--nav-text);
+				text-decoration: none;
+				font: 500 12px/1 var(--mono);
+				letter-spacing: 0.02em;
+				padding: 8px 12px;
+				touch-action: manipulation;
+			}
+			.site-nav a:hover,
+			.site-nav a:focus-visible {
+				color: #fff;
+				background: rgba(255, 255, 255, 0.16);
+			}
+
+			.content {
+				max-width: 1080px;
+				margin: 0 auto;
+				padding: 96px max(24px, env(safe-area-inset-left)) 48px;
+			}
+
+			.photo-hero {
+				margin-bottom: 40px;
+				max-width: 640px;
+			}
+			.eyebrow {
+				color: var(--teal-bright);
+				letter-spacing: 0.16em;
+				font-size: 12px;
+				margin: 0 0 12px;
+			}
+			.photo-hero h1 {
+				font-family: var(--display);
+				font-weight: 700;
+				font-size: clamp(1.9rem, 5.2vw, 2.8rem);
+				line-height: 1.1;
+				margin: 0 0 10px;
+			}
+			.hero-sub {
+				color: var(--text-dim);
+				margin: 0;
+			}
+
+			.gallery {
+				display: grid;
+				grid-template-columns: repeat(2, 1fr);
+				gap: 20px;
+			}
+			.photo {
+				margin: 0;
+				border: 1px solid var(--panel-border);
+				background: #000;
+				overflow: hidden;
+			}
+			.photo img {
+				display: block;
+				width: 100%;
+				height: auto;
+			}
+			.photo figcaption {
+				padding: 10px 12px;
+				font-size: 11px;
+				letter-spacing: 0.03em;
+				color: var(--text-dim);
+				background: rgba(255, 255, 255, 0.04);
+				border-top: 1px solid var(--panel-border);
+			}
+
+			.site-footer {
+				text-align: center;
+				margin-top: 56px;
+			}
+			.site-footer a {
+				color: var(--teal-bright);
+				text-decoration: none;
+				font-size: 13px;
+			}
+			.site-footer a:hover {
+				text-decoration: underline;
+			}
+
+			@media (max-width: 640px) {
+				.content {
+					padding: 88px 18px 40px;
+				}
+				.gallery {
+					grid-template-columns: 1fr;
+				}
+			}
+		</style>
+	</body>
+</html>

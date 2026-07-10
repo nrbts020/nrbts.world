@@ -1,0 +1,1065 @@
+---
+// Mirror's Edge Moon — beats.dev portfolio
+// Stage 1: Astro scaffold + Three.js canvas rendering a plain sphere.
+// Stage 9: manual sun/moon override control (Live / Day / Night), so the
+// scene can be demoed without waiting on the real clock.
+//
+// Stage 10: real content layer. The scene becomes a fixed full-viewport
+// backdrop (canvas position: fixed) and the actual page content — about,
+// projects, skills/resume, contact — scrolls over it in normal document
+// flow, so the city/sky stays visible and time-of-day-reactive throughout
+// the whole page, not just a single hero screen.
+//
+// Design pass (post-scaffold feedback): moved away from dark glassy rounded
+// "startup" cards toward an off-white/grey, angular, Mirror's-Edge-coded
+// look — solid light panels with a cut top-right corner instead of
+// border-radius, a bold geometric display face (Chakra Petch) for
+// headlines paired with the existing system sans for body copy and mono
+// for metadata/tags. Hero no longer states a name (that lives in About now)
+// — instead it states capabilities.
+//
+// Content: About/Projects/Skills/Contact are all real (Norbert, Portland OR,
+// creative production across Nike/adidas). Resume link points at the real
+// PDF in public/resume/ — replace that file if the CV is ever updated.
+---
+
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>beats.dev</title>
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Sora:wght@400;500;600&display=swap"
+			rel="stylesheet"
+		/>
+	</head>
+	<body>
+		<canvas id="scene-canvas"></canvas>
+
+		<nav class="site-nav" aria-label="Section navigation">
+			<a href="#about">about</a>
+			<a href="#projects">projects</a>
+			<a href="#skills">skills</a>
+			<a href="#contact">contact</a>
+		</nav>
+
+		<div class="time-toggle" role="group" aria-label="Time of day">
+			<button type="button" data-mode="live" class="active">Live</button>
+			<button type="button" data-mode="day">Day</button>
+			<button type="button" data-mode="night">Night</button>
+		</div>
+
+		<main class="content">
+			<section class="hero">
+				<p class="mono eyebrow">PORTFOLIO</p>
+				<h1 class="capability-stack">
+					<span>creative production</span>
+					<span>brand experience</span>
+					<span class="accent">spatial design</span>
+				</h1>
+				<a class="scroll-cue" href="#about" aria-label="Scroll to content">
+					<span class="scroll-cue-glyph"><span></span></span>
+					<span class="scroll-cue-label mono">scroll</span>
+				</a>
+			</section>
+
+			<section id="about" class="panel">
+				<h2><span class="prompt">&gt;</span> about</h2>
+				<div class="panel-body prose">
+					<p>
+						I'm Norbert — a creative producer based in Portland, Oregon. For a
+						decade I've taken brand work from brief to built, mostly across Nike
+						and adidas: concept rooms, retail environments, campaigns, and the
+						physical moments where a brand stops being an idea and becomes
+						something you can walk into.
+					</p>
+					<p>
+						My job is usually the connective tissue — turning shifting creative
+						direction into something that can actually be fabricated, installed,
+						and shipped on a fixed date, while keeping the craft intact under
+						real production pressure. I'm happiest on my feet, in the build,
+						working with fabricators and designers to close the gap between the
+						render and the room.
+					</p>
+					<p>Outside the brief, I founded a skate brand, collect records, and shoot film.</p>
+				</div>
+			</section>
+
+			<section id="projects" class="panel panel--wide">
+				<h2><span class="prompt">&gt;</span> projects</h2>
+
+				<h3 class="group-label mono">case studies</h3>
+				<div class="project-grid">
+					<article class="project-card">
+						<h3>GGP Running &amp; Training — Nike WHQ</h3>
+						<p class="proj-meta mono">Creative production &middot; 2026</p>
+						<p>Producing the aspirational concept rooms for Nike's Spring 2027 global-to-geo reveal.</p>
+						<p class="proj-status mono">Keep it tight &mdash; imagery under wraps until early 2027</p>
+						<div class="proj-frame">
+							<img
+								src="/images/ggp-thank-you-note.jpg"
+								width="1400"
+								height="1084"
+								loading="lazy"
+								decoding="async"
+								alt="A handwritten note: Norbert, this wouldn't have happened without you. Huge thank you! - Chloe"
+							/>
+						</div>
+						<p class="proj-caption mono">Chloe Speed, VP/GM Nike Training</p>
+					</article>
+					<article class="project-card">
+						<h3>Skate Slow</h3>
+						<p class="proj-meta mono">Founder &amp; producer &middot; 2023</p>
+						<p>A skate brand built from scratch — sold out across three countries in weeks.</p>
+						<div class="proj-frame">
+							<img
+								src="/images/skate-slow.jpg"
+								width="1600"
+								height="1061"
+								loading="lazy"
+								decoding="async"
+								alt="Norbert wearing a Skate Slow t-shirt, standing next to a surfboard, staircase in the background"
+							/>
+						</div>
+					</article>
+					<article class="project-card">
+						<h3>adidas Footwear Walls — Europe</h3>
+						<p class="proj-meta mono">VM production &middot; adidas</p>
+						<p>End-to-end visual merchandising for adidas footwear walls in key European doors.</p>
+						<div class="proj-frame">
+							<img
+								src="/images/adidas-ftw-wall.jpg"
+								width="960"
+								height="542"
+								loading="lazy"
+								decoding="async"
+								alt="An adidas footwear wall display in a retail store"
+							/>
+						</div>
+					</article>
+					<article class="project-card">
+						<h3>Uncancel 2020</h3>
+						<p class="proj-meta mono">Organizer &amp; curator &middot; 2020</p>
+						<p>A four-day exhibition giving locked-down artists a place to show their work.</p>
+						<div class="proj-frame">
+							<img
+								src="/images/uncancel/installation-view.jpg"
+								width="1400"
+								height="1399"
+								loading="lazy"
+								decoding="async"
+								alt="Visitors walking through the vaulted Kunstkapel gallery space, photography hung along the curved wall"
+							/>
+						</div>
+						<a class="proj-link mono" href="/uncancel">View &rarr;</a>
+					</article>
+					<article class="project-card">
+						<h3>Jarreau Vandal &times; Intersport</h3>
+						<p class="proj-meta mono">Digital production &middot; adidas</p>
+						<p>Branded content with a Dutch producer and DJ, made in-house at adidas.</p>
+						<video
+							class="proj-video"
+							controls
+							preload="none"
+							poster="/video/jarreau-vandal-poster.jpg"
+							playsinline
+						>
+							<source src="/video/jarreau-vandal.mp4" type="video/mp4" />
+						</video>
+					</article>
+				</div>
+
+				<h3 class="group-label mono">craft</h3>
+				<div class="project-grid">
+					<article class="project-card">
+						<h3>Keyboard build film</h3>
+						<p class="proj-meta mono">Self-directed &middot; product film</p>
+						<p>A high-quality build film — an exercise in product, detail, and taste.</p>
+						<video
+							class="proj-video"
+							controls
+							preload="none"
+							poster="/video/keyboard-build-film-poster.jpg"
+							playsinline
+						>
+							<source src="/video/keyboard-build-film.mp4" type="video/mp4" />
+						</video>
+					</article>
+					<article class="project-card">
+						<h3>Nike Ekin — shoe film</h3>
+						<p class="proj-meta mono">On-camera &middot; product</p>
+						<p>A self-shot piece talking through a favorite running shoe.</p>
+						<video
+							class="proj-video"
+							controls
+							preload="none"
+							poster="/video/ekin-shoe-film-poster.jpg"
+							playsinline
+						>
+							<source src="/video/ekin-shoe-film.mp4" type="video/mp4" />
+						</video>
+					</article>
+				</div>
+
+				<h3 class="group-label mono">selected freelance</h3>
+				<div class="project-grid">
+					<article class="project-card">
+						<h3>Serial Mag</h3>
+						<p class="proj-meta mono">Web design &amp; development &middot; freelance</p>
+						<p>An online magazine covering streetwear, culture, and music.</p>
+						<a class="proj-link mono" href="/serial">View &rarr;</a>
+					</article>
+				</div>
+
+				<h3 class="group-label mono">personal</h3>
+				<div class="project-grid">
+					<article class="project-card">
+						<h3>Photography</h3>
+						<p class="proj-meta mono">Analog &middot; architecture &amp; city</p>
+						<p>A tight edit of film work — mostly architecture, city, and landscape.</p>
+						<a class="proj-link mono" href="/photography">View &rarr;</a>
+					</article>
+					<article class="project-card">
+						<h3>Music</h3>
+						<p class="proj-meta mono">DJ &middot; vinyl + digital</p>
+						<p>Late-90s progressive trance at the moment.</p>
+						<a class="proj-link mono" href="https://www.youtube.com/watch?v=glM2XYbF97A" target="_blank" rel="noopener noreferrer">&#9656; Bedrock &ndash; Heaven Scent</a>
+					</article>
+					<article class="project-card">
+						<h3>Writing</h3>
+						<p class="proj-meta mono">Personal running journal</p>
+						<p>Race reports and gear reviews, written for myself first.</p>
+						<a class="proj-link mono" href="/writing">Read &rarr;</a>
+					</article>
+				</div>
+			</section>
+
+			<section id="skills" class="panel panel--wide">
+				<h2><span class="prompt">&gt;</span> skills</h2>
+
+				<h3 class="group-label mono">what i do</h3>
+				<ul class="tag-cloud">
+					<li>Creative production</li>
+					<li>Brand experience</li>
+					<li>Project management</li>
+					<li>Vendor &amp; fabricator management</li>
+					<li>Physical/experiential production</li>
+					<li>Retail environments &amp; visual merchandising</li>
+					<li>Production budgets &amp; procurement</li>
+					<li>On-site build &amp; install</li>
+					<li>Cross-functional coordination</li>
+					<li>Agency &amp; partner management</li>
+				</ul>
+
+				<div class="panel-body resume-card">
+					<h3 class="group-label mono">experience</h3>
+					<ul class="exp-list">
+						<li class="exp-item">
+							<div class="exp-head">
+								<span class="exp-role">Creative Producer</span>
+								<span class="exp-org mono">Nike (contract)</span>
+								<span class="exp-date mono">2026</span>
+							</div>
+							<p>
+								Produced the SP27 Global-to-Geo Pivot Running &amp; Training concept
+								rooms at Nike WHQ. Owned the exploded-footwear graphics workstream
+								with UK studio i love dust, and the production, contract, and
+								procurement backbone across 10+ external fabricators. Held delivery
+								together through the final sprint to a fixed reveal.
+							</p>
+						</li>
+						<li class="exp-item">
+							<div class="exp-head">
+								<span class="exp-role">Visual Merchandising &amp; Styling (External)</span>
+								<span class="exp-org mono">Nike (contract)</span>
+								<span class="exp-date mono">2025&ndash;present</span>
+							</div>
+							<p>
+								Styling and visual merchandising across retail environments and
+								seasonal moments — translating global brand direction into
+								consumer-facing retail narratives.
+							</p>
+						</li>
+						<li class="exp-item">
+							<div class="exp-head">
+								<span class="exp-role">Store Operations &amp; Retail Experience</span>
+								<span class="exp-org mono">The Darkside Initiative</span>
+								<span class="exp-date mono">2025&ndash;2026</span>
+							</div>
+							<p>
+								Retail experience and operations for a specialty sneaker retailer —
+								product launches, collaborations, and in-store activations.
+							</p>
+						</li>
+						<li class="exp-item">
+							<div class="exp-head">
+								<span class="exp-role">Founder &amp; Producer</span>
+								<span class="exp-org mono">Skate Slow</span>
+								<span class="exp-date mono">2023&ndash;present</span>
+							</div>
+							<p>
+								Built a skate brand and webshop end to end — concept, production,
+								store, marketing, and fulfillment.
+							</p>
+						</li>
+						<li class="exp-item">
+							<div class="exp-head">
+								<span class="exp-role">Senior Digital Account Manager, Nike EMEA</span>
+								<span class="exp-org mono">Mindshare (WPP)</span>
+								<span class="exp-date mono">2021&ndash;2022</span>
+							</div>
+							<p>
+								Led integrated digital strategy and execution for Nike EMEA brand
+								moments and product launches across markets.
+							</p>
+						</li>
+						<li class="exp-item">
+							<div class="exp-head">
+								<span class="exp-role">Digital Marketing Manager</span>
+								<span class="exp-org mono">adidas</span>
+								<span class="exp-date mono">2019&ndash;2021</span>
+							</div>
+							<p>
+								Owned brand and product campaign delivery across European markets
+								for the global Intersport account, spanning brand, media, and
+								e-commerce.
+							</p>
+						</li>
+						<li class="exp-item">
+							<div class="exp-head">
+								<span class="exp-role">Digital Strategy Consultant</span>
+								<span class="exp-org mono">Brandwatch / Falcon.io</span>
+								<span class="exp-date mono">2016&ndash;2019</span>
+							</div>
+							<p>
+								Advised global brands on digital and social strategy; co-hosted a
+								conference webinar and contributed to the company's annual trends
+								report.
+							</p>
+						</li>
+					</ul>
+					<p class="exp-earlier">
+						Earlier: adidas (Key Account Management, Foot Locker EMEA; Product
+						Marketing intern), Apple, Porsche Design.
+					</p>
+
+					<hr class="divider" />
+
+					<h3 class="group-label mono">education</h3>
+					<ul class="term-list-dark">
+						<li>M.Sc. Brand &amp; Communications Management — Copenhagen Business School (exchange: Al Akhawayn University, Ifrane, Morocco)</li>
+						<li>B.Sc. International Business — Maastricht University (exchange: Nagoya, Japan)</li>
+					</ul>
+
+					<hr class="divider" />
+
+					<h3 class="group-label mono">languages &amp; location</h3>
+					<p class="lang-line">English (professional fluency) &middot; German (native)</p>
+					<p class="lang-line">Based in Portland, Oregon &middot; open to relocation</p>
+				</div>
+
+				<h3 class="group-label mono">tools</h3>
+				<ul class="tag-cloud">
+					<li>Keynote</li>
+					<li>PowerPoint</li>
+					<li>Excel</li>
+					<li>Figma</li>
+					<li>Miro</li>
+					<li>WordPress</li>
+					<li>Adobe Creative Suite</li>
+					<li>DaVinci Resolve</li>
+					<li>Google &amp; Microsoft suites</li>
+				</ul>
+
+				<a class="resume-link mono" href="/resume/norbert-sauter-resume.pdf" download>&darr; download resume</a>
+			</section>
+
+			<section id="contact" class="panel">
+				<h2><span class="prompt">&gt;</span> contact</h2>
+				<div class="panel-body">
+					<ul class="term-list-dark contact-list">
+						<li><a href="mailto:hi@nrbts.world">email</a></li>
+						<li><a href="https://www.linkedin.com/in/nrbts/" target="_blank" rel="noopener noreferrer">linkedin</a></li>
+						<li><a href="https://www.instagram.com/norbeatz/" target="_blank" rel="noopener noreferrer">instagram</a></li>
+					</ul>
+				</div>
+			</section>
+
+			<footer class="site-footer mono">
+				<p>&copy; 2026 beats.dev — built with Astro + Three.js</p>
+			</footer>
+		</main>
+
+		<script>
+			import { initScene } from '../scene/scene';
+
+			const canvas = document.getElementById('scene-canvas') as HTMLCanvasElement;
+			if (canvas) {
+				const handle = initScene(canvas);
+
+				const buttons = document.querySelectorAll<HTMLButtonElement>('.time-toggle button');
+				buttons.forEach((button) => {
+					button.addEventListener('click', () => {
+						const mode = button.dataset.mode as 'live' | 'day' | 'night';
+						handle.setTimeOverride(mode);
+						buttons.forEach((b) => b.classList.toggle('active', b === button));
+					});
+				});
+			}
+
+			// Lightweight YouTube "click to load" facade: shows just a static
+			// thumbnail + play glyph until clicked, so visiting the page never
+			// pulls in YouTube's embed JS/iframe cost unless the visitor
+			// actually presses play — mobile-performance-conscious, same
+			// spirit as the self-hosted Ekin video's preload="none".
+			document.querySelectorAll<HTMLElement>('.proj-embed').forEach((el) => {
+				const activate = () => {
+					const id = el.dataset.ytId;
+					if (!id) return;
+					const iframe = document.createElement('iframe');
+					iframe.src = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1`;
+					iframe.setAttribute(
+						'allow',
+						'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
+					);
+					iframe.setAttribute('allowfullscreen', '');
+					iframe.style.cssText = 'width:100%;height:100%;border:0;display:block;';
+					el.replaceChildren(iframe);
+					el.removeAttribute('role');
+					el.removeAttribute('tabindex');
+				};
+				el.addEventListener('click', activate);
+				el.addEventListener('keydown', (e) => {
+					if (e.key === 'Enter' || e.key === ' ') {
+						e.preventDefault();
+						activate();
+					}
+				});
+			});
+		</script>
+
+		<style>
+			:root {
+				--bg: #05070a;
+				--teal: #0a9d9d;
+				--teal-bright: #7fe0e6;
+				--purple: #6a4fb6;
+				--text: #e6ecf0;
+				--text-dim: rgba(230, 236, 240, 0.7);
+				--sans: "Sora", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+				--mono: ui-monospace, "SF Mono", "Cascadia Code", "Roboto Mono", Consolas, monospace;
+				--display: "Chakra Petch", var(--sans);
+
+				/* Crisp near-white HUD-panel surface (map-screen reference pass —
+				   the earlier blue-tinted glass read too soft/dreamy next to the
+				   reference's clean opaque white readouts). Cooler, more opaque,
+				   with a thin cool-grey hairline border instead of a soft white
+				   one — used for any block of sustained-reading content (About,
+				   project cards, the resume card, Contact). Still paired with a
+				   backdrop blur so the scene shows through softly at the edges. */
+				--panel-bg: rgba(247, 250, 252, 0.94);
+				--panel-border: rgba(140, 160, 175, 0.4);
+				--panel-text: #14181d;
+				--panel-text-dim: #3d444b;
+				--cut: 22px;
+
+				/* Small tag chips sit directly on the scene, not inside a
+				   blurred panel — same crisp surface as --panel-bg (cheaper on
+				   mobile than blurring ~20 small chips individually, since it's
+				   already opaque enough to skip backdrop-filter). */
+				--chip-bg: rgba(247, 250, 252, 0.94);
+
+				/* Nav + time-toggle chrome: translucent warm red/orange glass,
+				   a deliberate callback to Mirror's Edge's red UI/wayfinding
+				   accent, distinct from the teal/purple used for content. */
+				--nav-bg: rgba(214, 52, 34, 0.34);
+				--nav-border: rgba(255, 255, 255, 0.2);
+				--nav-text: rgba(255, 241, 236, 0.85);
+				--nav-active-bg: rgba(255, 255, 255, 0.88);
+				--nav-active-text: #c81e1e;
+			}
+
+			html {
+				scroll-behavior: smooth;
+			}
+			html, body {
+				margin: 0;
+				padding: 0;
+				background: var(--bg);
+				color: var(--text);
+				font-family: var(--sans);
+			}
+			.mono {
+				font-family: var(--mono);
+			}
+
+			/* Scene stays pinned full-viewport behind everything as the page
+			   scrolls through content — see Stage 10 note above. */
+			#scene-canvas {
+				position: fixed;
+				inset: 0;
+				display: block;
+				width: 100vw;
+				height: 100vh;
+				z-index: 0;
+			}
+
+			/* Small HUD-style controls floating directly on the scene keep
+			   sharp/minimal corners (not full pills) to match the angular
+			   direction, without going as far as the faceted card cut used on
+			   larger content surfaces below. */
+			.site-nav {
+				position: fixed;
+				top: max(14px, env(safe-area-inset-top));
+				left: max(14px, env(safe-area-inset-left));
+				display: flex;
+				gap: 4px;
+				padding: 6px;
+				background: var(--nav-bg);
+				border: 1px solid var(--nav-border);
+				border-radius: 2px;
+				backdrop-filter: blur(6px);
+				-webkit-backdrop-filter: blur(6px);
+				z-index: 10;
+			}
+			.site-nav a {
+				color: var(--nav-text);
+				text-decoration: none;
+				font: 500 12px/1 var(--mono);
+				letter-spacing: 0.02em;
+				padding: 8px 12px;
+				touch-action: manipulation;
+			}
+			.site-nav a:hover,
+			.site-nav a:focus-visible {
+				color: #fff;
+				background: rgba(255, 255, 255, 0.16);
+			}
+
+			.time-toggle {
+				position: fixed;
+				right: max(14px, env(safe-area-inset-right));
+				bottom: max(14px, env(safe-area-inset-bottom));
+				display: flex;
+				gap: 2px;
+				padding: 3px;
+				background: var(--nav-bg);
+				border: 1px solid var(--nav-border);
+				border-radius: 2px;
+				backdrop-filter: blur(6px);
+				-webkit-backdrop-filter: blur(6px);
+				z-index: 10;
+			}
+			.time-toggle button {
+				appearance: none;
+				border: none;
+				background: transparent;
+				color: var(--nav-text);
+				font: 500 12px/1 var(--sans);
+				letter-spacing: 0.02em;
+				padding: 10px 14px;
+				cursor: pointer;
+				touch-action: manipulation;
+			}
+			.time-toggle button.active {
+				background: var(--nav-active-bg);
+				color: var(--nav-active-text);
+			}
+			.time-toggle button:hover {
+				color: #fff;
+			}
+
+			/* Content sits above the fixed canvas in normal document flow — this
+			   is what actually gives the page scrollable height. */
+			.content {
+				position: relative;
+				z-index: 1;
+			}
+
+			.hero {
+				position: relative; /* anchors .scroll-cue to this 100vh block, not the whole page */
+				min-height: 100vh;
+				display: flex;
+				flex-direction: column;
+				align-items: flex-start;
+				justify-content: center;
+				gap: 18px;
+				padding: 24px max(24px, env(safe-area-inset-left));
+				max-width: 780px;
+			}
+			.eyebrow {
+				color: var(--teal-bright);
+				letter-spacing: 0.16em;
+				font-size: 12px;
+				margin: 0;
+			}
+			.capability-stack {
+				margin: 0;
+				display: flex;
+				flex-direction: column;
+				gap: 2px;
+			}
+			.capability-stack span {
+				font-family: var(--display);
+				font-weight: 700;
+				font-size: clamp(1.9rem, 6.4vw, 3.6rem);
+				line-height: 1.05;
+				letter-spacing: 0.01em;
+			}
+			.capability-stack .accent {
+				color: var(--teal-bright);
+			}
+			/* Sits in the open sky between the fixed nav and the title line
+			   (moved up from the bottom per feedback — down at the bottom it
+			   blended into the city skyline silhouette; up here it reads
+			   against open sky in both day and night). Positioned
+			   independently of the vertically-centered capability-stack text
+			   so it holds a fixed spot regardless of how much room that text
+			   takes up. */
+			.scroll-cue {
+				position: absolute;
+				left: max(24px, env(safe-area-inset-left));
+				top: calc(max(14px, env(safe-area-inset-top)) + 64px);
+				display: flex;
+				align-items: center;
+				gap: 10px;
+				text-decoration: none;
+			}
+			.scroll-cue-glyph {
+				display: block;
+				width: 26px;
+				height: 42px;
+				border: 1px solid rgba(255, 255, 255, 0.35);
+				position: relative;
+				flex-shrink: 0;
+			}
+			.scroll-cue-glyph span {
+				position: absolute;
+				left: 50%;
+				top: 8px;
+				width: 4px;
+				height: 8px;
+				background: var(--teal-bright);
+				transform: translateX(-50%);
+				animation: scrollCue 1.6s ease-in-out infinite;
+			}
+			.scroll-cue-label {
+				color: rgba(255, 255, 255, 0.65);
+				font-size: 11px;
+				letter-spacing: 0.14em;
+			}
+			@keyframes scrollCue {
+				0% { opacity: 1; top: 8px; }
+				100% { opacity: 0; top: 22px; }
+			}
+
+			.panel {
+				padding: 72px max(24px, env(safe-area-inset-left));
+				max-width: 960px;
+				margin: 0 auto;
+			}
+			.panel--wide {
+				max-width: 1120px;
+			}
+			.panel h2 {
+				font-family: var(--display);
+				font-weight: 700;
+				font-size: clamp(1.5rem, 3.6vw, 2.1rem);
+				margin: 0 0 28px;
+			}
+			.prompt {
+				color: var(--teal);
+				font-family: var(--mono);
+				margin-right: 4px;
+			}
+			/* Map-screen reference pass: a small accent bar + a colored-to-
+			   transparent underline segment ahead of every subsection label,
+			   echoing the tab-and-keyline treatment before headers like
+			   "TRIUMVIRATE DRIVE" in the reference — reads consistently
+			   whether the label sits directly on the scene or inside a light
+			   panel, since it's a solid/gradient teal rather than a neutral
+			   hairline that would vanish on a light background. */
+			.group-label {
+				display: flex;
+				align-items: center;
+				gap: 8px;
+				font-size: 12px;
+				letter-spacing: 0.1em;
+				color: var(--teal-bright);
+				margin: 40px 0 14px;
+				padding-bottom: 10px;
+				background-image: linear-gradient(to right, var(--teal) 46px, transparent 46px);
+				background-repeat: no-repeat;
+				background-position: 0 100%;
+				background-size: 100% 1px;
+			}
+			.group-label::before {
+				content: "";
+				display: block;
+				width: 4px;
+				height: 14px;
+				background: var(--teal);
+				flex-shrink: 0;
+			}
+			.panel > .group-label:first-of-type,
+			.panel-body > .group-label:first-child {
+				margin-top: 0;
+			}
+
+			/* Translucent, angular content surfaces — a cut top-right corner
+			   instead of border-radius is the deliberate "not rounded, not a
+			   startup card" detail requested; the light-blue translucent fill
+			   plus a backdrop blur lets the scene show through softly while
+			   keeping text legible whether it's a bright day sky or a dark
+			   neon night behind it. */
+			.panel-body {
+				background: var(--panel-bg);
+				color: var(--panel-text);
+				border: 1px solid var(--panel-border);
+				clip-path: polygon(0 0, calc(100% - var(--cut)) 0, 100% var(--cut), 100% 100%, 0 100%);
+				padding: 32px;
+				backdrop-filter: blur(16px);
+				-webkit-backdrop-filter: blur(16px);
+				box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+			}
+			.prose p {
+				color: var(--panel-text-dim);
+				line-height: 1.65;
+				max-width: 68ch;
+			}
+			.prose p + p {
+				margin-top: 16px;
+			}
+
+			/* align-items:start overrides grid's default stretch — without
+			   it, every card in a row is forced to match the tallest
+			   sibling's height (e.g. GGP's status badge + caption, or
+			   Uncancel's "View ->" link), leaving visible blank space below
+			   the photo on shorter cards like Skate Slow or the adidas FTW
+			   wall that don't have that extra line. Cards now size to their
+			   own content; row bottoms won't align perfectly, but no more
+			   dead space inside any single card. */
+			.project-grid {
+				display: grid;
+				grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+				gap: 18px;
+				align-items: start;
+			}
+			.project-card {
+				background: var(--panel-bg);
+				color: var(--panel-text);
+				border: 1px solid var(--panel-border);
+				clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 0 100%);
+				padding: 20px;
+				backdrop-filter: blur(14px);
+				-webkit-backdrop-filter: blur(14px);
+				box-shadow: 0 8px 22px rgba(0, 0, 0, 0.3);
+			}
+			.project-card h3 {
+				margin: 0 0 6px;
+				font-family: var(--display);
+				font-weight: 600;
+				font-size: 1.05rem;
+			}
+			/* Small marker glyph ahead of each project title, echoing the
+			   map-screen reference's icon-before-list-item language (quest
+			   diamonds, collectible stars) — a CSS ::before so no markup
+			   changes were needed across all ten project cards. */
+			.project-card h3::before {
+				content: "";
+				display: inline-block;
+				width: 6px;
+				height: 6px;
+				margin-right: 8px;
+				background: var(--teal);
+				vertical-align: middle;
+			}
+			.proj-meta {
+				color: var(--teal);
+				font-size: 11px;
+				letter-spacing: 0.04em;
+				margin: 0 0 10px;
+			}
+			.project-card p:not(.proj-meta) {
+				color: var(--panel-text-dim);
+				margin: 0;
+				font-size: 0.92rem;
+				line-height: 1.5;
+			}
+			.proj-link {
+				display: inline-block;
+				margin-top: 10px;
+				color: var(--teal);
+				text-decoration: none;
+				font-size: 12px;
+			}
+			.proj-link:hover {
+				color: var(--teal-bright);
+				text-decoration: underline;
+			}
+			/* Small dim caption under a .proj-frame image where the card needs
+			   an attribution/context line that isn't the role/year metadata
+			   already handled by .proj-meta (e.g. crediting who wrote a note
+			   or shot a photo used as evidence rather than as the work itself). */
+			.proj-caption {
+				margin-top: 8px !important;
+				color: var(--panel-text-dim);
+				font-size: 11px !important;
+				letter-spacing: 0.03em;
+			}
+			/* NDA/placeholder badge for case studies whose imagery can't be
+			   shown yet — a small "classified" tag rather than an empty or
+			   apologetic-looking card, in keeping with the map-screen HUD
+			   language elsewhere on the page. */
+			.proj-status {
+				display: inline-block;
+				margin-top: 10px !important;
+				padding: 5px 10px;
+				background: rgba(10, 157, 157, 0.1);
+				border: 1px solid rgba(10, 157, 157, 0.35);
+				color: var(--teal) !important;
+				font-size: 11px !important;
+				letter-spacing: 0.03em;
+			}
+			/* Self-hosted video, preload="none" + poster so the file isn't
+			   fetched until the visitor actually presses play — kept out of
+			   the initial page weight on mobile. */
+			.proj-video {
+				display: block;
+				width: 100%;
+				margin-top: 12px;
+				border: 1px solid var(--panel-border);
+				background: #000;
+			}
+			/* Standard treatment for any static hero image on a project
+			   card (Skate Slow, adidas FTW walls, Uncancel) — a thin teal
+			   hairline, same color as the .proj-status/.proj-classified
+			   accent border, so every card-level photo reads as part of
+			   the same system regardless of source resolution/aspect
+			   ratio. Replaced an earlier padded cream "matted print" look
+			   that combined with the card's own box-shadow to read as an
+			   unwanted 3D/beveled effect. */
+			.proj-frame {
+				margin-top: 12px;
+				border: 1px solid rgba(10, 157, 157, 0.35);
+			}
+			.proj-frame img {
+				display: block;
+				width: 100%;
+				height: auto;
+			}
+			/* Stand-in for case-study cards with no imagery to show yet (NDA,
+			   etc.) — fills the same visual footprint a .proj-video/.proj-frame
+			   would take so the card doesn't read as broken/empty next to
+			   siblings that do have media, while doubling down on the
+			   "classified briefing" joke already established by .proj-status. */
+			.proj-classified {
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				margin-top: 12px;
+				aspect-ratio: 16 / 9;
+				border: 1px solid rgba(10, 157, 157, 0.35);
+				background-image: repeating-linear-gradient(
+					45deg,
+					rgba(10, 157, 157, 0.09),
+					rgba(10, 157, 157, 0.09) 10px,
+					rgba(10, 157, 157, 0.03) 10px,
+					rgba(10, 157, 157, 0.03) 20px
+				);
+			}
+			.proj-classified span {
+				font-size: 11px;
+				letter-spacing: 0.08em;
+				color: var(--teal);
+				opacity: 0.75;
+			}
+			/* YouTube click-to-load facade (see inline script) — a static
+			   thumbnail + play glyph standing in for the real embed until
+			   clicked. */
+			.proj-embed {
+				position: relative;
+				display: block;
+				width: 100%;
+				aspect-ratio: 16 / 9;
+				margin-top: 12px;
+				border: 1px solid var(--panel-border);
+				background: #000;
+				overflow: hidden;
+				cursor: pointer;
+			}
+			.proj-embed img {
+				width: 100%;
+				height: 100%;
+				object-fit: cover;
+				display: block;
+				opacity: 0.85;
+			}
+			.proj-embed-play {
+				position: absolute;
+				inset: 0;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+			}
+			.proj-embed-play::before {
+				content: "";
+				width: 0;
+				height: 0;
+				border-style: solid;
+				border-width: 12px 0 12px 20px;
+				border-color: transparent transparent transparent #fff;
+				filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.5));
+			}
+
+			/* Tag clouds sit directly on the scene (not inside a blurred
+			   panel), so each tag uses the slightly more opaque --chip-bg
+			   rather than --panel-bg — legible over a pale day sky or a dark
+			   night sky without needing its own backdrop-filter (cheaper on
+			   mobile than blurring ~20 small chips individually). */
+			.tag-cloud {
+				list-style: none;
+				display: flex;
+				flex-wrap: wrap;
+				gap: 8px;
+				padding: 0;
+				margin: 0 0 8px;
+			}
+			.tag-cloud li {
+				background: var(--chip-bg);
+				color: var(--purple);
+				border: 1px solid var(--panel-border);
+				font-family: var(--mono);
+				font-size: 12px;
+				padding: 6px 12px;
+			}
+			/* Same marker-glyph language as .project-card h3::before, applied
+			   to tag chips (map-screen reference pass). */
+			.tag-cloud li::before {
+				content: "";
+				display: inline-block;
+				width: 5px;
+				height: 5px;
+				margin-right: 6px;
+				background: var(--purple);
+				vertical-align: middle;
+			}
+
+			.resume-card {
+				margin-top: 8px;
+			}
+			.exp-list {
+				list-style: none;
+				margin: 0;
+				padding: 0;
+			}
+			.exp-item + .exp-item {
+				margin-top: 20px;
+				padding-top: 20px;
+				border-top: 1px solid var(--panel-border);
+			}
+			.exp-head {
+				display: flex;
+				flex-wrap: wrap;
+				align-items: baseline;
+				gap: 4px 10px;
+				margin-bottom: 6px;
+			}
+			.exp-role {
+				font-family: var(--display);
+				font-weight: 600;
+				font-size: 1rem;
+			}
+			.exp-org {
+				color: var(--teal);
+				font-size: 12px;
+			}
+			.exp-date {
+				color: var(--panel-text-dim);
+				font-size: 12px;
+				margin-left: auto;
+			}
+			.exp-item p {
+				color: var(--panel-text-dim);
+				margin: 0;
+				line-height: 1.55;
+				font-size: 0.92rem;
+			}
+			.exp-earlier {
+				margin: 18px 0 0;
+				color: var(--panel-text-dim);
+				font-size: 0.85rem;
+				font-style: italic;
+			}
+			.divider {
+				border: none;
+				border-top: 1px solid var(--panel-border);
+				margin: 24px 0;
+			}
+			.term-list-dark {
+				list-style: none;
+				margin: 0;
+				padding: 0;
+			}
+			.term-list-dark li {
+				font-family: var(--mono);
+				font-size: 0.92rem;
+				color: var(--panel-text-dim);
+				padding: 3px 0;
+			}
+			.term-list-dark li::before {
+				content: "> ";
+				color: var(--teal);
+			}
+			.lang-line {
+				font-family: var(--mono);
+				font-size: 0.92rem;
+				color: var(--panel-text-dim);
+				margin: 3px 0;
+			}
+
+			.resume-link {
+				display: inline-block;
+				margin-top: 24px;
+				color: var(--teal-bright);
+				text-decoration: none;
+				font-size: 13px;
+				border: 1px solid rgba(80, 200, 210, 0.4);
+				padding: 10px 18px;
+			}
+			.resume-link:hover {
+				background: rgba(80, 200, 210, 0.12);
+			}
+
+			.contact-list a {
+				color: var(--panel-text);
+				text-decoration: none;
+			}
+			.contact-list a:hover {
+				color: var(--teal);
+			}
+
+			.site-footer {
+				text-align: center;
+				color: var(--text-dim);
+				font-size: 12px;
+				padding: 32px 24px 56px;
+			}
+
+			@media (max-width: 640px) {
+				.panel {
+					padding: 56px 18px;
+				}
+				.panel-body,
+				.project-card {
+					padding: 18px;
+				}
+				.exp-date {
+					margin-left: 0;
+				}
+			}
+		</style>
+	</body>
+</html>
