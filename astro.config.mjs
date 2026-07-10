@@ -1,6 +1,6 @@
 import { defineConfig } from 'astro/config';
 
 export default defineConfig({
-  site: 'https://beats.dev',
+  site: 'https://nrbts.world',
   output: 'static',
 });
