@@ -1,0 +1,279 @@
+---
+// Serial — "The S12 Silvia — Initial D's Biggest Snub."
+// Second real article after the Nikon FE2 piece. User-sourced photos of
+// their own S12 (an RS-X Turbo, "Full White" livery) dropped into
+// _incoming. The Initial D framing — every notable 80s/90s Nissan coupe
+// got a moment in the show except the car that started the Silvia line —
+// is the author's own fan-opinion premise, not an encyclopedia claim, so
+// it's written in first-person voice rather than asserted as fact.
+import SerialLayout from "../../layouts/SerialLayout.astro";
+import Nav from "../../components/serial/Nav.astro";
+import Hero from "../../components/serial/Hero.astro";
+import ImageGrid from "../../components/serial/ImageGrid.astro";
+import ArticleSection from "../../components/serial/ArticleSection.astro";
+import PullQuote from "../../components/serial/PullQuote.astro";
+import LensSpec from "../../components/serial/LensSpec.astro";
+import RatingStrip from "../../components/serial/RatingStrip.astro";
+import RelatedGrid from "../../components/serial/RelatedGrid.astro";
+import Paywall from "../../components/serial/Paywall.astro";
+import Footer from "../../components/serial/Footer.astro";
+---
+
+<SerialLayout
+	title="The S12 Silvia — Initial D's Biggest Snub — Serial"
+	description="A case for the Nissan Silvia S12: the coupe that started the whole Silvia line, and the one Initial D never gave a garage spot."
+>
+	<Nav />
+
+	<Hero
+		kicker="Drive / JDM"
+		category="Feature"
+		title="The S12 Silvia — Initial D's Biggest Snub"
+		image={{ src: "/images/serial/hero-s12-silvia.jpg", alt: "Rear three-quarter view of a white Nissan Silvia S12 parked in tall grass among trees, showing the SILVIA badge and S12 numberplate" }}
+	/>
+
+	<div class="wrap">
+		<div class="section" style="padding-top:56px">
+			<p class="lede">
+				<span class="drop">Every self-respecting 80s and 90s Japanese sports coupe got its moment in Initial D</span> —
+				S13, S14, S15, even a Sileighty stitched together from two different Nissans. The car that started the whole
+				Silvia lineage never showed up. That's not an oversight. That's a snub.
+			</p>
+		</div>
+	</div>
+
+	<ImageGrid
+		variant="2"
+		tiles={[
+			{
+				image: { src: "/images/serial/s12-front-sunset.jpg", alt: "The Nissan Silvia S12 photographed front three-quarter at dusk, suburban houses in the background" },
+			},
+			{
+				image: { src: "/images/serial/s12-profile-palms.jpg", alt: "Side profile of the white Nissan Silvia S12, parked in front of palm trees and a concrete wall" },
+			},
+		]}
+	/>
+
+	<ArticleSection number="01" title="The Silvia Nobody Cast">
+		<p>
+			The S12 is the second-generation Silvia — the one that came before the S13 the entire drift world, and Initial
+			D along with it, decided to worship. Wedge-nosed, pop-up headlights, a name badge that still reads clean forty
+			years later. It's not obscure by accident. It's obscure because the show that made every other Nissan coupe a
+			household name for a certain kind of car kid simply skipped it.
+		</p>
+		<p>
+			By the time Initial D was casting its garage of legends, the S12 had already aged out of relevance in the
+			culture's eyes — too early for the touge scene the show was built around, overshadowed by everything that came
+			directly after it. Which is a shame, because underneath the boxy early-80s shape is a genuinely serious piece
+			of engineering.
+		</p>
+	</ArticleSection>
+
+	<ImageGrid
+		variant="wide"
+		tiles={[
+			{
+				aspect: "16 / 6",
+				image: {
+					src: "/images/serial/s12-night-fence.jpg",
+					alt: "The Silvia S12 parked at night beside a chain-link fence and an ENTER ONLY, STRICTLY SMOKE FREE ZONE sign, lit dramatically against a starry sky",
+				},
+			},
+		]}
+	/>
+
+	<PullQuote
+		quote="A boosted coupe that could plausibly run down the Panda Trueno on a straight wouldn't have made for a very good underdog story."
+	/>
+
+	<ArticleSection number="02" title="RS-X Full White">
+		<p>
+			This one's the RS-X Turbo — the trim that actually deserved a highlight reel. Under the hood is the FJ20ET, a
+			twin-cam 2.0-liter turbo four that was, on paper, a genuinely quick engine for 1985. Nissan wasn't dabbling
+			with turbo Silvias as a marketing gimmick; the FJ20ET was a serious motor, and the RS-X Full White package
+			dressed it in a livery that still looks better than half of what rolled off dealer lots a decade later.
+		</p>
+		<p>
+			Drive one and the character is obvious immediately — that particular turbo-lag-then-shove rhythm that later,
+			more refined Silvias smoothed out of existence. It's rawer than an S13, rougher around the edges, and more
+			honest about what it is: an early-80s turbo coupe that hasn't been sanded down by forty years of nostalgia
+			marketing.
+		</p>
+	</ArticleSection>
+
+	<ImageGrid
+		variant="2"
+		tiles={[
+			{
+				image: { src: "/images/serial/s12-decal-detail.jpg", alt: "Close-up of the RS-X Full White, Twin Cam Turbo decal on the Silvia S12's front door" },
+			},
+			{
+				image: { src: "/images/serial/s12-interior.jpg", alt: "The Silvia S12's interior, showing the steering wheel, manual shifter, and dashboard controls" },
+			},
+		]}
+	/>
+
+	<ArticleSection number="03" title="Could It Hang With the Panda Trueno?">
+		<p>
+			Here's the theory, and I'll own that it's a theory: the S12 never got its Initial D moment because it might
+			have actually given the AE86 a real fight.
+		</p>
+		<p>
+			Takumi's Trueno is a 1.6-liter naturally aspirated 4A-GE making somewhere around 130 horsepower stock, running
+			on downhill momentum, tofu-delivery muscle memory, and one of the greatest underdog stories animation has ever
+			told. It deserves every bit of its legend status. But horsepower for horsepower, an RS-X Turbo S12 is putting
+			out meaningfully more from the factory — turbocharged instead of screaming to redline for it, on the same
+			basic front-engine, rear-wheel-drive recipe.
+		</p>
+		<p>
+			Maybe that's exactly why it stayed out of the show. Easier to leave it out of the garage entirely than let it
+			complicate the myth.
+		</p>
+	</ArticleSection>
+
+	<LensSpec
+		name="Nissan Silvia S12 — RS-X Turbo"
+		sn="1983&ndash;1988 &middot; FR chassis"
+		rows={[
+			{ k: "Engine", v: "FJ20ET 2.0L turbo I4" },
+			{ k: "Power", v: "~190hp (JDM RS-X)" },
+			{ k: "Layout", v: "Front-engine, RWD" },
+		]}
+		verdict="Underrated"
+	>
+		More power than the car everyone remembers, from the same basic recipe, wearing a livery that still holds up.
+		The one that got left out of the garage.
+	</LensSpec>
+
+	<LensSpec
+		name="Toyota AE86 — Trueno / Levin"
+		sn="1983&ndash;1987 &middot; FR chassis"
+		rows={[
+			{ k: "Engine", v: "4A-GE 1.6L NA I4" },
+			{ k: "Power", v: "~130hp (stock)" },
+			{ k: "Layout", v: "Front-engine, RWD" },
+		]}
+		verdict="The legend"
+	>
+		Deserves every bit of its status — the tofu shop, the downhill runs, the whole underdog story. Just not
+		necessarily the faster car.
+	</LensSpec>
+
+	<RatingStrip
+		ratings={[
+			{ label: "Power", value: "190hp" },
+			{ label: "Chassis", value: "FR" },
+			{ label: "Obscurity", value: "High" },
+			{ label: "Verdict", value: "Slept on" },
+		]}
+	/>
+
+	<ImageGrid
+		variant="wide"
+		tiles={[
+			{
+				aspect: "16 / 6",
+				image: {
+					src: "/images/serial/s12-lakeside.jpg",
+					alt: "The Silvia S12 parked beside a lake at golden hour, hills and water in the background",
+				},
+			},
+		]}
+	/>
+
+	<ArticleSection number="04" title="Living With It">
+		<p>
+			None of this is really about winning an argument with a cartoon. It's about a car that's quietly excellent
+			and constantly overlooked, mostly because the culture decided its little brother was the one worth
+			remembering. Take it up through Hakone's switchbacks — actual elevation change, actual corners — and it stops
+			being a trivia answer and starts being just a genuinely good, characterful, slightly unhinged old turbo coupe
+			that happens to also be a great-looking piece of early-80s design.
+		</p>
+		<p>It doesn't need the Initial D cameo to be worth driving. It probably would have been better with one.</p>
+	</ArticleSection>
+
+	<ImageGrid
+		variant="wide"
+		tiles={[
+			{
+				aspect: "16 / 6",
+				image: {
+					src: "/images/serial/s12-garage.jpg",
+					alt: "A figure crouched beside the Silvia S12 in a graffiti-covered warehouse space",
+				},
+			},
+		]}
+	/>
+
+	<RelatedGrid
+		heading="More from Serial"
+		items={[
+			{
+				href: "/serial/nikon-fe2",
+				category: "Review",
+				title: "The Nikon FE2 — the unsung hero of Civil War",
+				image: { src: "/images/serial/hero-fe2-topplate.jpg", alt: "Close-up of the Nikon FE2 top plate" },
+			},
+			{
+				href: "#",
+				category: "Esports",
+				title: "NRG Wins VALORANT Champions 2025",
+				image: { src: "/images/serial/nrg-champions.jpg", alt: "An NRG Valorant player celebrating on stage" },
+				locked: true,
+			},
+			{
+				href: "#",
+				category: "Music",
+				title: "A Short History of DJ Shadow",
+				image: { src: "/images/serial/dj-shadow.jpg", alt: "DJ Shadow — Midnight in a Perfect World single artwork" },
+				locked: true,
+			},
+			{
+				href: "#",
+				category: "Film",
+				title: "Squaring the Circle: The Story of Hipgnosis — Reviewed",
+				image: { src: "/images/serial/hipgnosis-poster.jpg", alt: "Japanese theatrical poster for Squaring the Circle: The Story of Hipgnosis" },
+				locked: true,
+			},
+			{
+				href: "#",
+				category: "Culture",
+				title: "Ranking Amsterdam's Cinemas",
+				image: { src: "/images/serial/eye-film-museum.jpg", alt: "The EYE Film Museum on the IJ waterfront, Amsterdam, lit at dusk" },
+				locked: true,
+			},
+			{
+				href: "#",
+				category: "Interview",
+				title: "Siebrand — Black Gold, Vinyl & Coffee",
+				image: { src: "/images/serial/black-gold-siebrand.jpg", alt: "Siebrand standing outside Black Gold, Vinyl & Coffee in Amsterdam" },
+				locked: true,
+			},
+			{
+				href: "#",
+				category: "Sports",
+				title: "Ma Long and Xu Xin — Two Ends of the Sports Psychology Spectrum",
+				image: { src: "/images/serial/malong-xuxin.jpg", alt: "Table tennis players Ma Long and Xu Xin standing together in China national team kits" },
+				locked: true,
+			},
+			{
+				href: "#",
+				category: "Books",
+				title: "Neuromancer Walked So The Matrix Could Run — An Analysis",
+				image: { src: "/images/serial/neuromancer-cover.jpg", alt: "Cover of William Gibson's Neuromancer, Ace Science Fiction edition" },
+				locked: true,
+			},
+			{
+				href: "#",
+				category: "Food",
+				title: "Noma, Copenhagen — Reviewed",
+				image: { src: "/images/serial/noma-copenhagen.jpg", alt: "The wood and brick exterior of Noma restaurant, Copenhagen, surrounded by tall grass" },
+				locked: true,
+			},
+		]}
+	/>
+
+	<Footer />
+
+	<Paywall />
+</SerialLayout>
