@@ -1,0 +1,244 @@
+---
+// Serial — "The Nemo Disco 15" gear review.
+// Third real article. Based on the user's own multi-week John Muir Trail
+// field test of the bag (not a rewrite of any published review — content
+// here is original, drawn from the user's firsthand trail notes). No
+// photography exists yet: the only images available were a third party's
+// (Ian Krammer / CleverHiker.com) copyrighted lifestyle photography of the
+// same bag, which isn't ours to publish even with a credit line — credit
+// isn't the same as a license. So every image slot here uses the site's
+// existing bracket-placeholder convention until real (user-owned, or
+// explicitly licensed) photography exists. Spec numbers in the LensSpec
+// block (weight, fill power, comfort rating) are factual product data
+// pulled from Nemo's own product page, not copyrightable expression.
+import SerialLayout from "../../layouts/SerialLayout.astro";
+import Nav from "../../components/serial/Nav.astro";
+import Hero from "../../components/serial/Hero.astro";
+import ImageGrid from "../../components/serial/ImageGrid.astro";
+import ArticleSection from "../../components/serial/ArticleSection.astro";
+import PullQuote from "../../components/serial/PullQuote.astro";
+import LensSpec from "../../components/serial/LensSpec.astro";
+import RatingStrip from "../../components/serial/RatingStrip.astro";
+import RelatedGrid from "../../components/serial/RelatedGrid.astro";
+import Paywall from "../../components/serial/Paywall.astro";
+import Footer from "../../components/serial/Footer.astro";
+---
+
+<SerialLayout
+	title="The Nemo Disco 15 — Cocoon Mode on the JMT — Serial"
+	description="A field review of the Nemo Disco 15 sleeping bag after two and a half weeks on the John Muir Trail."
+>
+	<Nav />
+
+	<Hero
+		kicker="Gear / Backpacking"
+		category="Review"
+		title="The Nemo Disco 15 — Cocoon Mode on the JMT"
+		placeholder={["NEMO DISCO 15", "PHOTO PENDING"]}
+	/>
+
+	<div class="wrap">
+		<div class="section" style="padding-top:56px">
+			<p class="lede">
+				<span class="drop">A multi-week trail is a long stress test for a sleep system</span> — full
+				sun down to below-freezing nights, no do-overs if something in the kit doesn't hold up. The
+				Nemo Disco 15 rode along for two and a half weeks on the John Muir Trail, through the whole
+				range of conditions the JMT throws at you, and came out the other side as one of the few
+				pieces of gear with zero complaints.
+			</p>
+		</div>
+	</div>
+
+	<ImageGrid
+		variant="2"
+		tiles={[
+			{
+				placeholder: ["DISCO 15", "PACKED"],
+			},
+			{
+				placeholder: ["THERMO GILL", "DETAIL"],
+			},
+		]}
+	/>
+
+	<ArticleSection number="01" title="A Wide Temperature Window">
+		<p>
+			The range is the headline. This bag adapted well across everything the JMT threw at it, down to
+			below freezing at altitude, without ever feeling like the wrong bag for the night. That's mostly
+			down to the Thermo Gills — the two chest vents, each with its own inner and outer zipper. On
+			colder nights they stay sealed and the bag runs warm; the second temperatures climb, cracking
+			the gills open dumps just enough heat without fully unzipping and losing the warmth you've
+			already built up. That flexibility, more than the quoted comfort rating, is what made one bag
+			work for the whole trip.
+		</p>
+	</ArticleSection>
+
+	<ImageGrid
+		variant="wide"
+		tiles={[
+			{
+				aspect: "16 / 6",
+				placeholder: ["JMT CAMP, NIGHT"],
+			},
+		]}
+	/>
+
+	<PullQuote
+		quote="Close the collar and it doesn't ease you into warm. It's immediate — a heated cocoon the second it seals."
+	/>
+
+	<ArticleSection number="02" title="Small Footprint, Long Trail">
+		<p>
+			On a trip measured in weeks instead of nights, packed size matters as much as anything the bag
+			does once you're in it. The Disco compresses down small enough that it never read as the
+			sacrifice a roomier bag usually is — which matters more the longer the trail gets, since every
+			cubic inch it doesn't take up is one more you get back for food or layers.
+		</p>
+	</ArticleSection>
+
+	<LensSpec
+		name="Nemo Disco 15"
+		sn="Endless Promise Collection &middot; 650 FP RDS down"
+		rows={[
+			{ k: "Comfort", v: "15&deg;F / 30&deg;F options" },
+			{ k: "Weight", v: "2 lb 11 oz" },
+			{ k: "Fill", v: "650 FP" },
+		]}
+		verdict="JMT-approved"
+	>
+		Spec sheet numbers are Nemo's own, not a substitute for the trail test above — but they explain
+		why the bag performs the way it does. The 650-fill down and dual Thermo Gills are doing the actual
+		work described in the temperature-range section.
+	</LensSpec>
+
+	<RatingStrip
+		ratings={[
+			{ label: "Warmth", value: "Wide range" },
+			{ label: "Packed size", value: "Compact" },
+			{ label: "Comfort", value: "Excellent" },
+			{ label: "Verdict", value: "Keeper" },
+		]}
+	/>
+
+	<ImageGrid
+		variant="2"
+		tiles={[
+			{
+				placeholder: ["BLANKET FOLD", "COLLAR"],
+			},
+			{
+				placeholder: ["HOOD", "PILLOW POCKET"],
+			},
+		]}
+	/>
+
+	<ArticleSection number="03" title="The Cocoon">
+		<p>
+			The closure flap is the detail that sells the bag. Pull it into place and it doesn't ease you
+			into warm — it's immediate, sealing off the collar and turning the whole bag into a heated
+			cocoon the second it closes. The hood does its own version of the same trick: it's plush enough
+			on its own that a pillow stopped being necessary, one less thing to carry or improvise with a
+			stuffed jacket.
+		</p>
+	</ArticleSection>
+
+	<ImageGrid
+		variant="wide"
+		tiles={[
+			{
+				aspect: "16 / 6",
+				placeholder: ["JMT CAMPSITE"],
+			},
+		]}
+	/>
+
+	<ArticleSection number="04" title="Sizing: Long vs. Regular">
+		<p>
+			One genuine caveat, and it's about fit rather than performance. At 6 feet, the Long size ran
+			slightly large — some of that is probably the spoon shape itself rather than the length, coming
+			from a mummy-bag background where the bag moves with you rather than the other way around. The
+			extra room isn't wasted: you can turn over inside the bag instead of turning the whole bag with
+			you, which is a real comfort upgrade on a multi-week trip. The trade-off is that more internal
+			volume takes longer to heat up. If low-temperature performance is the priority over roominess,
+			it's worth sizing down to Regular even right at the height cutoff.
+		</p>
+	</ArticleSection>
+
+	<RelatedGrid
+		heading="More from Serial"
+		items={[
+			{
+				href: "/serial/nikon-fe2",
+				category: "Review",
+				title: "The Nikon FE2 — the unsung hero of Civil War",
+				image: { src: "/images/serial/hero-fe2-topplate.jpg", alt: "Close-up of the Nikon FE2 top plate" },
+			},
+			{
+				href: "#",
+				category: "Film",
+				title: "Squaring the Circle: The Story of Hipgnosis — Reviewed",
+				image: { src: "/images/serial/hipgnosis-poster.jpg", alt: "Japanese theatrical poster for Squaring the Circle: The Story of Hipgnosis" },
+				locked: true,
+			},
+			{
+				href: "#",
+				category: "Music",
+				title: "A Short History of DJ Shadow",
+				image: { src: "/images/serial/dj-shadow.jpg", alt: "DJ Shadow — Midnight in a Perfect World single artwork" },
+				locked: true,
+			},
+			{
+				href: "#",
+				category: "Culture",
+				title: "Ranking Amsterdam's Cinemas",
+				image: { src: "/images/serial/eye-film-museum.jpg", alt: "The EYE Film Museum on the IJ waterfront, Amsterdam, lit at dusk" },
+				locked: true,
+			},
+			{
+				href: "/serial/s12-silvia",
+				category: "Drive",
+				title: "The S12 Silvia — Initial D's Biggest Snub",
+				image: { src: "/images/serial/s12-silvia.jpg", alt: "The front fender and wheel of a white Nissan S12 Silvia" },
+			},
+			{
+				href: "#",
+				category: "Esports",
+				title: "NRG Wins VALORANT Champions 2025",
+				image: { src: "/images/serial/nrg-champions.jpg", alt: "An NRG Valorant player celebrating on stage" },
+				locked: true,
+			},
+			{
+				href: "#",
+				category: "Interview",
+				title: "Siebrand — Black Gold, Vinyl & Coffee",
+				image: { src: "/images/serial/black-gold-siebrand.jpg", alt: "Siebrand standing outside Black Gold, Vinyl & Coffee in Amsterdam" },
+				locked: true,
+			},
+			{
+				href: "#",
+				category: "Books",
+				title: "Neuromancer Walked So The Matrix Could Run — An Analysis",
+				image: { src: "/images/serial/neuromancer-cover.jpg", alt: "Cover of William Gibson's Neuromancer, Ace Science Fiction edition" },
+				locked: true,
+			},
+			{
+				href: "#",
+				category: "Sports",
+				title: "Ma Long and Xu Xin — Two Ends of the Sports Psychology Spectrum",
+				image: { src: "/images/serial/malong-xuxin.jpg", alt: "Table tennis players Ma Long and Xu Xin standing together in China national team kits" },
+				locked: true,
+			},
+			{
+				href: "#",
+				category: "Food",
+				title: "Noma, Copenhagen — Reviewed",
+				image: { src: "/images/serial/noma-copenhagen.jpg", alt: "The wood and brick exterior of Noma restaurant, Copenhagen, surrounded by tall grass" },
+				locked: true,
+			},
+		]}
+	/>
+
+	<Footer />
+
+	<Paywall />
+</SerialLayout>
