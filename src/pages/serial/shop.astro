@@ -2,14 +2,17 @@
 // Serial — Shop (concept). Nav/Footer already pointed to "/serial/shop" as
 // a real destination once this existed, so it's built the same way the
 // rest of the recreation is: honest about being a portfolio piece, not a
-// live store — no cart, no checkout, just three imagined merch objects
-// that exist because the logo deserved to leave the browser tab.
+// live store — no cart, no checkout, just a handful of imagined merch
+// objects that exist because the logo deserved to leave the browser tab.
 //
 // No photorealistic image-generation tool is available in this
 // environment, so the products are hand-drawn flat SVG illustrations in
 // Serial's own ink/paper monochrome system instead of product photos —
 // which actually fits the "concrete/steel, monochrome-by-intent" design
-// language better than a photo would have.
+// language better than a photo would have. The T-Shirt tile spins on a
+// CSS rotateY loop (pure illusion — it's still one flat SVG, no second
+// "back" frame) to stand in for a 360° product view; pauses on hover and
+// respects prefers-reduced-motion.
 import SerialLayout from "../../layouts/SerialLayout.astro";
 import Nav from "../../components/serial/Nav.astro";
 import Footer from "../../components/serial/Footer.astro";
@@ -30,6 +33,11 @@ const products = [
 		price: "$12",
 		copy: "Enamel, clipped corner, butterfly clasp. The logo, worth pinning to something.",
 	},
+	{
+		name: "Serial T-Shirt",
+		price: "$32",
+		copy: "Heavyweight cotton, one clipped corner on the chest. Spins for effect; does not actually rotate in the wash.",
+	},
 ];
 ---
 
@@ -41,8 +49,8 @@ const products = [
 			<p class="caps masthead-eyebrow">Merch &middot; Concept</p>
 			<h1 class="masthead-title brandf">Shop</h1>
 			<p class="masthead-sub">
-				A small concept drop — three objects that exist because the logo deserved to leave the
-				browser tab. Illustrated, not photographed, and not actually for sale.
+				A small concept drop — objects that exist because the logo deserved to leave the browser
+				tab. Illustrated, not photographed, and not actually for sale.
 			</p>
 		</div>
 	</div>
@@ -80,6 +88,16 @@ const products = [
 									<rect x="92" y="165" width="16" height="22" fill="var(--mute)" />
 									<circle cx="100" cy="192" r="9" fill="var(--img)" />
 								</svg>
+							)}
+							{product.name === "Serial T-Shirt" && (
+								<div class="spin-stage">
+									<svg class="spin-el" viewBox="0 0 240 280" role="img" aria-label="Illustration of a t-shirt with the Serial S mark, spinning in place">
+										<path d="M60,40 L95,15 Q120,42 145,15 L180,40 L165,78 L165,260 L75,260 L75,78 Z" fill="var(--form)" stroke="var(--ink)" stroke-width="4" stroke-linejoin="round" />
+										<polygon points="90,112 150,112 150,166.6 134.6,182 90,182" fill="var(--ink)" />
+										<text x="120" y="157" text-anchor="middle" font-family="Archivo, sans-serif" font-weight="700" font-size="34" fill="var(--paper)">S</text>
+										<text x="120" y="222" text-anchor="middle" font-family="Space Mono, monospace" font-size="10" letter-spacing="3" fill="var(--ink2)">SERIAL</text>
+									</svg>
+								</div>
 							)}
 						</div>
 						<div class="shop-info">
@@ -148,6 +166,37 @@ const products = [
 		.shop-art svg {
 			width: 100%;
 			height: 100%;
+		}
+		.spin-stage {
+			width: 100%;
+			height: 100%;
+			perspective: 900px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
+		.spin-el {
+			width: 100%;
+			height: 100%;
+			animation: spin-y 5.5s linear infinite;
+			transform-style: preserve-3d;
+			will-change: transform;
+		}
+		.shop-art:hover .spin-el {
+			animation-play-state: paused;
+		}
+		@keyframes spin-y {
+			from {
+				transform: rotateY(0deg);
+			}
+			to {
+				transform: rotateY(360deg);
+			}
+		}
+		@media (prefers-reduced-motion: reduce) {
+			.spin-el {
+				animation: none;
+			}
 		}
 		.shop-info {
 			padding: 20px 22px 24px;
