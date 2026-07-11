@@ -2,15 +2,14 @@
 // Serial — "The Nemo Disco 15" gear review.
 // Third real article. Based on the user's own multi-week John Muir Trail
 // field test of the bag (not a rewrite of any published review — content
-// here is original, drawn from the user's firsthand trail notes). No
-// photography exists yet: the only images available were a third party's
-// (Ian Krammer / CleverHiker.com) copyrighted lifestyle photography of the
-// same bag, which isn't ours to publish even with a credit line — credit
-// isn't the same as a license. So every image slot here uses the site's
-// existing bracket-placeholder convention until real (user-owned, or
-// explicitly licensed) photography exists. Spec numbers in the LensSpec
-// block (weight, fill power, comfort rating) are factual product data
-// pulled from Nemo's own product page, not copyrightable expression.
+// here is original, drawn from the user's firsthand trail notes). Images
+// are official Nemo Equipment product-detail-page photography (sourced by
+// the user directly from nemoequipment.com, not the earlier CleverHiker/
+// Ian Krammer material that was deliberately left out — brand-owned
+// product photography for a review of that exact product is standard
+// editorial use, unlike reproducing a competing outlet's lifestyle shoot).
+// Spec numbers in the LensSpec block (weight, fill power, comfort rating)
+// are factual product data pulled from Nemo's own product page.
 import SerialLayout from "../../layouts/SerialLayout.astro";
 import Nav from "../../components/serial/Nav.astro";
 import Hero from "../../components/serial/Hero.astro";
@@ -34,7 +33,7 @@ import Footer from "../../components/serial/Footer.astro";
 		kicker="Gear / Backpacking"
 		category="Review"
 		title="The Nemo Disco 15 — Cocoon Mode on the JMT"
-		placeholder={["NEMO DISCO 15", "PHOTO PENDING"]}
+		image={{ src: "/images/serial/hero-nemo-disco-15.jpg", alt: "A camper unfurling a navy and gold Nemo Disco 15 sleeping bag beside a tent at a lakeside campsite" }}
 	/>
 
 	<div class="wrap">
@@ -53,10 +52,12 @@ import Footer from "../../components/serial/Footer.astro";
 		variant="2"
 		tiles={[
 			{
-				placeholder: ["DISCO 15", "PACKED"],
+				tag: "Disco 15",
+				image: { src: "/images/serial/nemo-disco-15-profile.jpg", alt: "Side profile of the Nemo Disco 15 sleeping bag, closed, navy with gold zipper accents" },
 			},
 			{
-				placeholder: ["THERMO GILL", "DETAIL"],
+				tag: "Blanket Fold",
+				image: { src: "/images/serial/nemo-disco-15-flatlay.jpg", alt: "Top-down view of the Nemo Disco 15 with the hood and gold Blanket Fold collar open" },
 			},
 		]}
 	/>
@@ -78,7 +79,8 @@ import Footer from "../../components/serial/Footer.astro";
 		tiles={[
 			{
 				aspect: "16 / 6",
-				placeholder: ["JMT CAMP, NIGHT"],
+				tag: "Thermo Gill",
+				image: { src: "/images/serial/nemo-disco-15-thermogill.jpg", alt: "Three-quarter angle of the Nemo Disco 15 showing the Thermo Gill vent zippers along the torso" },
 			},
 		]}
 	/>
@@ -95,6 +97,17 @@ import Footer from "../../components/serial/Footer.astro";
 			cubic inch it doesn't take up is one more you get back for food or layers.
 		</p>
 	</ArticleSection>
+
+	<ImageGrid
+		variant="wide"
+		tiles={[
+			{
+				aspect: "16 / 6",
+				tag: "Packed Size",
+				image: { src: "/images/serial/nemo-disco-15-packed.jpg", alt: "The Nemo Disco 15 compressed in its stuff sack next to a standard Nalgene bottle for scale" },
+			},
+		]}
+	/>
 
 	<LensSpec
 		name="Nemo Disco 15"
@@ -121,13 +134,12 @@ import Footer from "../../components/serial/Footer.astro";
 	/>
 
 	<ImageGrid
-		variant="2"
+		variant="wide"
 		tiles={[
 			{
-				placeholder: ["BLANKET FOLD", "COLLAR"],
-			},
-			{
-				placeholder: ["HOOD", "PILLOW POCKET"],
+				aspect: "16 / 6",
+				tag: "Collar Open",
+				image: { src: "/images/serial/nemo-disco-15-collar-open.jpg", alt: "Angled view of the Nemo Disco 15 with the gold Blanket Fold collar and hood open" },
 			},
 		]}
 	/>
@@ -141,16 +153,6 @@ import Footer from "../../components/serial/Footer.astro";
 			stuffed jacket.
 		</p>
 	</ArticleSection>
-
-	<ImageGrid
-		variant="wide"
-		tiles={[
-			{
-				aspect: "16 / 6",
-				placeholder: ["JMT CAMPSITE"],
-			},
-		]}
-	/>
 
 	<ArticleSection number="04" title="Sizing: Long vs. Regular">
 		<p>
