@@ -2,14 +2,17 @@
 // Serial — "The Nemo Disco 15" gear review.
 // Third real article. Based on the user's own multi-week John Muir Trail
 // field test of the bag (not a rewrite of any published review — content
-// here is original, drawn from the user's firsthand trail notes). Images
-// are official Nemo Equipment product-detail-page photography (sourced by
-// the user directly from nemoequipment.com, not the earlier CleverHiker/
-// Ian Krammer material that was deliberately left out — brand-owned
-// product photography for a review of that exact product is standard
-// editorial use, unlike reproducing a competing outlet's lifestyle shoot).
-// Spec numbers in the LensSpec block (weight, fill power, comfort rating)
-// are factual product data pulled from Nemo's own product page.
+// here is original, drawn from the user's firsthand trail notes).
+// Photography is mixed on purpose: the user's own JMT trip photos run as
+// the big edge-to-edge bleeds (hero + wide panels) since they're genuine
+// trail documentary shots and read well at that scale; the official Nemo
+// PDP photography (sourced by the user from nemoequipment.com) is kept to
+// smaller 2-up/3-up grid tiles, since studio product shots blown up to a
+// full-bleed panel looked stretched/soft. The jmt-cocoon.jpg tent-interior
+// shot shows *a* sleeping bag but not clearly enough to assert it's the
+// Disco 15 itself, so it's captioned as trail atmosphere, not a product
+// shot. Spec numbers in the LensSpec block are factual product data pulled
+// from Nemo's own product page.
 import SerialLayout from "../../layouts/SerialLayout.astro";
 import Nav from "../../components/serial/Nav.astro";
 import Hero from "../../components/serial/Hero.astro";
@@ -33,7 +36,7 @@ import Footer from "../../components/serial/Footer.astro";
 		kicker="Gear / Backpacking"
 		category="Review"
 		title="The Nemo Disco 15 — Cocoon Mode on the JMT"
-		image={{ src: "/images/serial/hero-nemo-disco-15.jpg", alt: "A camper unfurling a navy and gold Nemo Disco 15 sleeping bag beside a tent at a lakeside campsite" }}
+		image={{ src: "/images/serial/hero-nemo-disco-15.jpg", alt: "Sitting above an alpine lake in the Sierra high country, looking out over the John Muir Trail" }}
 	/>
 
 	<div class="wrap">
@@ -49,15 +52,12 @@ import Footer from "../../components/serial/Footer.astro";
 	</div>
 
 	<ImageGrid
-		variant="2"
+		variant="wide"
 		tiles={[
 			{
-				tag: "Disco 15",
-				image: { src: "/images/serial/nemo-disco-15-profile.jpg", alt: "Side profile of the Nemo Disco 15 sleeping bag, closed, navy with gold zipper accents" },
-			},
-			{
-				tag: "Blanket Fold",
-				image: { src: "/images/serial/nemo-disco-15-flatlay.jpg", alt: "Top-down view of the Nemo Disco 15 with the hood and gold Blanket Fold collar open" },
+				aspect: "16 / 6",
+				tag: "Forester Pass · 13,200'",
+				image: { src: "/images/serial/jmt-forester-pass.jpg", alt: "Two backpacks and trekking poles resting beside the Forester Pass trail sign, elevation 13,200 feet, in Sequoia National Park" },
 			},
 		]}
 	/>
@@ -75,18 +75,35 @@ import Footer from "../../components/serial/Footer.astro";
 	</ArticleSection>
 
 	<ImageGrid
-		variant="wide"
+		variant="3"
 		tiles={[
 			{
-				aspect: "16 / 6",
+				tag: "Disco 15",
+				image: { src: "/images/serial/nemo-disco-15-profile.jpg", alt: "Side profile of the Nemo Disco 15 sleeping bag, closed, navy with gold zipper accents" },
+			},
+			{
 				tag: "Thermo Gill",
 				image: { src: "/images/serial/nemo-disco-15-thermogill.jpg", alt: "Three-quarter angle of the Nemo Disco 15 showing the Thermo Gill vent zippers along the torso" },
+			},
+			{
+				tag: "Blanket Fold",
+				image: { src: "/images/serial/nemo-disco-15-flatlay.jpg", alt: "Top-down view of the Nemo Disco 15 with the hood and gold Blanket Fold collar open" },
 			},
 		]}
 	/>
 
 	<PullQuote
 		quote="Close the collar and it doesn't ease you into warm. It's immediate — a heated cocoon the second it seals."
+	/>
+
+	<ImageGrid
+		variant="wide"
+		tiles={[
+			{
+				aspect: "16 / 6",
+				image: { src: "/images/serial/jmt-snow-crossing.jpg", alt: "A backpacker crossing a steep snowfield with trekking poles on the John Muir Trail" },
+			},
+		]}
 	/>
 
 	<ArticleSection number="02" title="Small Footprint, Long Trail">
@@ -99,12 +116,15 @@ import Footer from "../../components/serial/Footer.astro";
 	</ArticleSection>
 
 	<ImageGrid
-		variant="wide"
+		variant="2"
 		tiles={[
 			{
-				aspect: "16 / 6",
 				tag: "Packed Size",
 				image: { src: "/images/serial/nemo-disco-15-packed.jpg", alt: "The Nemo Disco 15 compressed in its stuff sack next to a standard Nalgene bottle for scale" },
+			},
+			{
+				tag: "Collar Open",
+				image: { src: "/images/serial/nemo-disco-15-collar-open.jpg", alt: "Angled view of the Nemo Disco 15 with the gold Blanket Fold collar and hood open" },
 			},
 		]}
 	/>
@@ -138,8 +158,7 @@ import Footer from "../../components/serial/Footer.astro";
 		tiles={[
 			{
 				aspect: "16 / 6",
-				tag: "Collar Open",
-				image: { src: "/images/serial/nemo-disco-15-collar-open.jpg", alt: "Angled view of the Nemo Disco 15 with the gold Blanket Fold collar and hood open" },
+				image: { src: "/images/serial/jmt-dusk-camp.jpg", alt: "A two-person tent pitched beside a rushing creek at dusk, granite slabs and pines in the background" },
 			},
 		]}
 	/>
@@ -153,6 +172,17 @@ import Footer from "../../components/serial/Footer.astro";
 			stuffed jacket.
 		</p>
 	</ArticleSection>
+
+	<ImageGrid
+		variant="wide"
+		tiles={[
+			{
+				aspect: "16 / 6",
+				tag: "End of a Long Day",
+				image: { src: "/images/serial/jmt-cocoon.jpg", alt: "Feet emerging from sleeping bags inside a tent at the end of a trail day, gear stashed by the tent's mesh door" },
+			},
+		]}
+	/>
 
 	<ArticleSection number="04" title="Sizing: Long vs. Regular">
 		<p>
@@ -218,9 +248,9 @@ import Footer from "../../components/serial/Footer.astro";
 			},
 			{
 				href: "#",
-				category: "Books",
-				title: "Neuromancer Walked So The Matrix Could Run — An Analysis",
-				image: { src: "/images/serial/neuromancer-cover.jpg", alt: "Cover of William Gibson's Neuromancer, Ace Science Fiction edition" },
+				category: "Food",
+				title: "Noma, Copenhagen — Reviewed",
+				image: { src: "/images/serial/noma-copenhagen.jpg", alt: "The wood and brick exterior of Noma restaurant, Copenhagen, surrounded by tall grass" },
 				locked: true,
 			},
 			{
@@ -232,9 +262,9 @@ import Footer from "../../components/serial/Footer.astro";
 			},
 			{
 				href: "#",
-				category: "Food",
-				title: "Noma, Copenhagen — Reviewed",
-				image: { src: "/images/serial/noma-copenhagen.jpg", alt: "The wood and brick exterior of Noma restaurant, Copenhagen, surrounded by tall grass" },
+				category: "Books",
+				title: "Neuromancer Walked So The Matrix Could Run — An Analysis",
+				image: { src: "/images/serial/neuromancer-cover.jpg", alt: "Cover of William Gibson's Neuromancer, Ace Science Fiction edition" },
 				locked: true,
 			},
 		]}
