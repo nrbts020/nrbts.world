@@ -5,38 +5,43 @@
 // live store — no cart, no checkout, just a handful of imagined merch
 // objects that exist because the logo deserved to leave the browser tab.
 //
-// No photorealistic image-generation tool is available in this
-// environment, so the products are hand-drawn flat SVG illustrations in
-// Serial's own ink/paper monochrome system instead of product photos —
-// which actually fits the "concrete/steel, monochrome-by-intent" design
-// language better than a photo would have. The T-Shirt tile spins on a
-// CSS rotateY loop (pure illusion — it's still one flat SVG, no second
-// "back" frame) to stand in for a 360° product view; pauses on hover and
-// respects prefers-reduced-motion.
+// User-sourced real product photography replaced the earlier hand-drawn
+// SVG placeholders once the assets existed (dropped into _incoming as
+// serial_cap.png, serial_lighter.png, serial_computerkind.png, and an
+// eic_front/eic_back pair for the longsleeve — "eic" being the joke
+// printed across its back, EDITOR IN CHIEF). The longsleeve also came
+// with a short looping clip (serial_longsleeve_animated.mp4, re-encoded
+// down to ~160kb/480px wide for mobile) used in place of a static photo;
+// autoplay is gated behind a prefers-reduced-motion check below instead
+// of the CSS-only approach the old spinning-T-shirt SVG used, since a
+// real <video> needs its play() call suppressed in JS, not just its
+// animation. Tote and Pin never got photographed and are dropped rather
+// than left as the odd illustrated-out SVGs in an otherwise-photographed
+// grid.
 import SerialLayout from "../../layouts/SerialLayout.astro";
 import Nav from "../../components/serial/Nav.astro";
 import Footer from "../../components/serial/Footer.astro";
 
 const products = [
 	{
-		name: "Serial Lighter",
-		price: "$8",
-		copy: "Black Bic-style flip-top, S mark printed on the panel. Runs out exactly when the article does.",
-	},
-	{
-		name: "Serial Tote",
-		price: "$28",
-		copy: "Heavy canvas, one size, one mark. Holds a camera body and whatever you didn't plan on buying.",
-	},
-	{
-		name: "Serial Pin",
-		price: "$12",
-		copy: "Enamel, clipped corner, butterfly clasp. The logo, worth pinning to something.",
+		name: "Serial Longsleeve",
+		price: "$58",
+		copy: "Heavyweight cotton, small serial mark on the chest, EDITOR IN CHIEF stamped across the back — a title nobody assigned.",
 	},
 	{
 		name: "Serial T-Shirt",
 		price: "$32",
-		copy: "Heavyweight cotton, one clipped corner on the chest. Spins for effect; does not actually rotate in the wash.",
+		copy: "Washed black cotton, COMPUTER KIND printed dead center. For anyone the algorithm already knows too well.",
+	},
+	{
+		name: "Serial Cap",
+		price: "$24",
+		copy: "Low-profile six-panel, serial printed in white across the front. Pulls the bill down over whatever you were about to overthink.",
+	},
+	{
+		name: "Serial Lighter",
+		price: "$8",
+		copy: "Black flip-top, S mark printed on the panel. Runs out exactly when the article does.",
 	},
 ];
 ---
@@ -50,7 +55,7 @@ const products = [
 			<h1 class="masthead-title brandf">Shop</h1>
 			<p class="masthead-sub">
 				A small concept drop — objects that exist because the logo deserved to leave the browser
-				tab. Illustrated, not photographed, and not actually for sale.
+				tab. Real samples, not a live store — nothing here is actually for sale.
 			</p>
 		</div>
 	</div>
@@ -61,43 +66,34 @@ const products = [
 				products.map((product) => (
 					<div class="shop-card">
 						<div class="shop-art">
-							{product.name === "Serial Lighter" && (
-								<svg viewBox="0 0 160 320" role="img" aria-label="Illustration of a black lighter with the Serial S mark">
-									<rect x="25" y="70" width="110" height="230" rx="16" fill="var(--ink)" />
-									<rect x="40" y="25" width="80" height="55" rx="6" fill="var(--mute)" />
-									<circle cx="58" cy="40" r="9" fill="var(--img)" />
-									<rect x="80" y="32" width="30" height="10" rx="2" fill="var(--paper)" />
-									<polygon points="45,140 115,140 115,194.6 99.6,210 45,210" fill="var(--paper)" />
-									<text x="80" y="185" text-anchor="middle" font-family="Archivo, sans-serif" font-weight="700" font-size="34" fill="var(--ink)">S</text>
-									<text x="80" y="238" text-anchor="middle" font-family="Space Mono, monospace" font-size="11" letter-spacing="3" fill="var(--paper)">SERIAL</text>
-								</svg>
-							)}
-							{product.name === "Serial Tote" && (
-								<svg viewBox="0 0 260 300" role="img" aria-label="Illustration of a canvas tote bag with the Serial S mark">
-									<path d="M80,62 C80,18 100,8 130,8 C160,8 180,18 180,62" fill="none" stroke="var(--ink)" stroke-width="4" />
-									<rect x="30" y="60" width="200" height="220" fill="var(--form)" stroke="var(--ink)" stroke-width="3" />
-									<polygon points="95,130 165,130 165,184.6 149.6,200 95,200" fill="var(--ink)" />
-									<text x="130" y="175" text-anchor="middle" font-family="Archivo, sans-serif" font-weight="700" font-size="34" fill="var(--paper)">S</text>
-									<text x="130" y="228" text-anchor="middle" font-family="Space Mono, monospace" font-size="12" letter-spacing="4" fill="var(--ink)">SERIAL</text>
-								</svg>
-							)}
-							{product.name === "Serial Pin" && (
-								<svg viewBox="0 0 200 220" role="img" aria-label="Illustration of an enamel pin with the Serial S mark">
-									<polygon points="30,20 170,20 170,129.2 145.6,160 30,160" fill="var(--ink)" />
-									<text x="100" y="108" text-anchor="middle" font-family="Archivo, sans-serif" font-weight="700" font-size="56" fill="var(--paper)">S</text>
-									<rect x="92" y="165" width="16" height="22" fill="var(--mute)" />
-									<circle cx="100" cy="192" r="9" fill="var(--img)" />
-								</svg>
+							{product.name === "Serial Longsleeve" && (
+								<video
+									class="shop-video"
+									data-autoplay
+									poster="/images/serial/shop-longsleeve-front.jpg"
+									src="/videos/serial/shop-longsleeve.mp4"
+									loop
+									muted
+									playsinline
+									aria-label="Looping clip of a model wearing the white Serial longsleeve, EDITOR IN CHIEF printed across the back"
+								/>
 							)}
 							{product.name === "Serial T-Shirt" && (
-								<div class="spin-stage">
-									<svg class="spin-el" viewBox="0 0 240 280" role="img" aria-label="Illustration of a t-shirt with the Serial S mark, spinning in place">
-										<path d="M60,40 L95,15 Q120,42 145,15 L180,40 L165,78 L165,260 L75,260 L75,78 Z" fill="var(--form)" stroke="var(--ink)" stroke-width="4" stroke-linejoin="round" />
-										<polygon points="90,112 150,112 150,166.6 134.6,182 90,182" fill="var(--ink)" />
-										<text x="120" y="157" text-anchor="middle" font-family="Archivo, sans-serif" font-weight="700" font-size="34" fill="var(--paper)">S</text>
-										<text x="120" y="222" text-anchor="middle" font-family="Space Mono, monospace" font-size="10" letter-spacing="3" fill="var(--ink2)">SERIAL</text>
-									</svg>
-								</div>
+								<img
+									src="/images/serial/shop-tshirt.jpg"
+									alt="A model wearing the black Serial T-Shirt with COMPUTER KIND printed on the chest"
+									loading="lazy"
+								/>
+							)}
+							{product.name === "Serial Cap" && (
+								<img
+									src="/images/serial/shop-cap.jpg"
+									alt="A model wearing the black Serial cap with the serial wordmark on the front panel"
+									loading="lazy"
+								/>
+							)}
+							{product.name === "Serial Lighter" && (
+								<img src="/images/serial/shop-lighter.jpg" alt="A black lighter printed with the serial wordmark" loading="lazy" />
 							)}
 						</div>
 						<div class="shop-info">
@@ -115,6 +111,22 @@ const products = [
 	</div>
 
 	<Footer />
+
+	<script>
+		// Real <video> autoplay isn't stoppable with CSS alone the way the old
+		// spinning-SVG loop was — gate the actual play() call on the same
+		// prefers-reduced-motion check instead, and pause on hover to match
+		// the old hover-pause behaviour of the illustrated tiles.
+		const vid = document.querySelector<HTMLVideoElement>(".shop-video");
+		if (vid) {
+			const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+			if (!reduce) {
+				vid.play().catch(() => {});
+				vid.addEventListener("mouseenter", () => vid.pause());
+				vid.addEventListener("mouseleave", () => vid.play().catch(() => {}));
+			}
+		}
+	</script>
 
 	<style>
 		.masthead {
@@ -156,47 +168,19 @@ const products = [
 			flex-direction: column;
 		}
 		.shop-art {
-			background: var(--form);
+			position: relative;
+			background: var(--img);
 			aspect-ratio: 4 / 5;
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			padding: 32px;
+			overflow: hidden;
 		}
-		.shop-art svg {
+		.shop-art img,
+		.shop-art video {
+			position: absolute;
+			inset: 0;
 			width: 100%;
 			height: 100%;
-		}
-		.spin-stage {
-			width: 100%;
-			height: 100%;
-			perspective: 900px;
-			display: flex;
-			align-items: center;
-			justify-content: center;
-		}
-		.spin-el {
-			width: 100%;
-			height: 100%;
-			animation: spin-y 5.5s linear infinite;
-			transform-style: preserve-3d;
-			will-change: transform;
-		}
-		.shop-art:hover .spin-el {
-			animation-play-state: paused;
-		}
-		@keyframes spin-y {
-			from {
-				transform: rotateY(0deg);
-			}
-			to {
-				transform: rotateY(360deg);
-			}
-		}
-		@media (prefers-reduced-motion: reduce) {
-			.spin-el {
-				animation: none;
-			}
+			object-fit: cover;
+			display: block;
 		}
 		.shop-info {
 			padding: 20px 22px 24px;
