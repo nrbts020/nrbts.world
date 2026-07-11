@@ -7,8 +7,14 @@
 // RelatedGrid's `locked` items) opens this instead of navigating. One
 // instance lives per page — mount it once, next to <Footer />.
 //
-// The Nikon FE2 piece is the one article that's actually finished, so it's
-// offered here as the free sample rather than leaving the visitor stuck.
+// Three articles are actually finished now (FE2, S12 Silvia, Nemo Disco
+// 15), so all three are offered here as free samples instead of leaving
+// the visitor stuck on just one.
+const samples = [
+	{ href: "/serial/nikon-fe2", title: "The Nikon FE2 — the unsung hero of Civil War" },
+	{ href: "/serial/s12-silvia", title: "The S12 Silvia — Initial D's Biggest Snub" },
+	{ href: "/serial/nemo-disco-15", title: "The Nemo Disco 15 — Cocoon Mode on the JMT" },
+];
 ---
 
 <div class="paywall-overlay" id="paywall" aria-hidden="true">
@@ -16,11 +22,15 @@
 		<button type="button" class="paywall-x" id="paywall-close" aria-label="Close">&times;</button>
 		<span class="caps paywall-badge">Serial+</span>
 		<h3 id="paywall-title" class="brandf">Members-only article</h3>
-		<p>This one's for Serial+ subscribers. Join to read the full archive — or start with a free sample below.</p>
-		<a class="paywall-sample" href="/serial/nikon-fe2">
-			<span class="paywall-sample-tag caps">Free sample</span>
-			<span class="paywall-sample-title">The Nikon FE2 — the unsung hero of Civil War</span>
-		</a>
+		<p>This one's for Serial+ subscribers. Join to read the full archive — or start with a few free samples below.</p>
+		{
+			samples.map((sample) => (
+				<a class="paywall-sample" href={sample.href}>
+					<span class="paywall-sample-tag caps">Free sample</span>
+					<span class="paywall-sample-title">{sample.title}</span>
+				</a>
+			))
+		}
 		<button type="button" class="paywall-dismiss" id="paywall-dismiss">Maybe later</button>
 	</div>
 </div>
