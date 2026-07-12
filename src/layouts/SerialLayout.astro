@@ -624,11 +624,30 @@ const { title, description = "Serial — gear, film, culture." } = Astro.props;
 				color: var(--mute);
 				text-transform: uppercase;
 			}
+			/* Title legibility guarantee — same problem the Hero's .scrim
+			   solves (dark mono text over an arbitrary photo), same fix: a
+			   paper-coloured wash under the label instead of relying on the
+			   photo being light there. Needed once real (often dark/busy)
+			   photography replaced placeholder tiles — titles were reading
+			   as near-invisible dark-on-dark, worse still on locked cards
+			   where the grayscale+dim filter darkens the image further. */
+			.rcard::after {
+				content: "";
+				position: absolute;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				height: 60%;
+				background: linear-gradient(to top, rgba(228, 229, 228, 0.92) 0%, rgba(228, 229, 228, 0.55) 45%, rgba(228, 229, 228, 0) 100%);
+				pointer-events: none;
+				z-index: 1;
+			}
 			.rcard .lab {
 				position: absolute;
 				left: 16px;
 				bottom: 16px;
 				right: 16px;
+				z-index: 2;
 			}
 			.rcard .cat {
 				font-family: "Space Mono", monospace;
