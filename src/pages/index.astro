@@ -1027,14 +1027,24 @@
 				margin: 3px 0;
 			}
 
+			/* Unlike proj-link/tag-cloud, this link sits directly in .panel
+			   (not .panel-body or a chip), so it has no opaque surface under
+			   it by default — just the raw fixed scene canvas showing
+			   through. That's what made it unreadable: text color alone
+			   can't fix contrast against a background that shifts with
+			   time-of-day. Give it the same chip-bg surface every other
+			   scene-floating label uses. */
 			.resume-link {
 				display: inline-block;
 				margin-top: 24px;
+				background: var(--chip-bg);
 				color: var(--teal);
 				text-decoration: none;
 				font-size: 13px;
-				border: 1px solid rgba(10, 157, 157, 0.4);
+				border: 1px solid var(--panel-border);
 				padding: 10px 18px;
+				backdrop-filter: blur(14px);
+				-webkit-backdrop-filter: blur(14px);
 			}
 			.resume-link:hover {
 				background: rgba(10, 157, 157, 0.12);
