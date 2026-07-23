@@ -711,6 +711,11 @@
 			html[data-sky="day"] .fog-layer {
 				opacity: 1;
 			}
+			/* Night: the light clouds still show, dimmer, as the sky's soft
+			   light element now that the glowing band is gone. */
+			html[data-sky="night"] .fog-layer {
+				opacity: 0.5;
+			}
 			/* Each puff is a soft, flattened radial white blob; the per-puff
 			   size / position / opacity / blur are set inline in the markup so
 			   the bank reads as scattered depth rather than one flat pane. */
@@ -741,17 +746,15 @@
 			.fog-drift {
 				position: absolute;
 				inset: 0;
-				will-change: transform;
-			}
-			html[data-sky="day"] .fog-drift {
 				animation: fogDrift 19s ease-in-out infinite alternate;
+				will-change: transform;
 			}
 			@keyframes fogDrift {
 				from { transform: translateX(-38px); }
 				to { transform: translateX(38px); }
 			}
 			@media (prefers-reduced-motion: reduce) {
-				html[data-sky="day"] .fog-drift { animation: none; }
+				.fog-drift { animation: none; }
 			}
 
 			/* Content sits above the fixed canvas in normal document flow — this
