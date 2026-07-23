@@ -71,15 +71,18 @@ interface LayerConfig {
 // disturbing each layer's relative depth ratios.
 //
 // POINTER_PARALLAX_SCALE scales how much the buildings react to the cursor:
-//   1   = original full-speed parallax
-//   0.45 = current — a calmer skyline that reacts less, letting the day-mode
-//          fog (which keeps its own inverted drift, see index.astro) read as
-//          the primary motion against a near-still city
-//   0   = buildings fully static to the pointer (fog does all the moving)
-// AMBIENT_DRIFT_SCALE scales the constant, input-independent creep (0 = none).
-// Both apply in day and night alike — this is the shared parallax path.
-const POINTER_PARALLAX_SCALE = 0.45;
-const AMBIENT_DRIFT_SCALE = 1;
+//   1    = original full-speed parallax
+//   0.45 = earlier calmer pass
+//   0    = current — buildings fully static to the pointer, so the day-mode
+//          fog (which keeps its own inverted drift, see index.astro) is the
+//          only thing moving: a still skyline with drifting haze over it
+// AMBIENT_DRIFT_SCALE scales the constant, input-independent creep:
+//   0    = current — no ambient building creep either, for a truly still city
+//   1    = original slow drift
+// Both apply in day and night alike — this is the shared parallax path. Bump
+// either back above 0 to reintroduce a touch of building motion.
+const POINTER_PARALLAX_SCALE = 0;
+const AMBIENT_DRIFT_SCALE = 0;
 
 const LAYERS: LayerConfig[] = [
   {
