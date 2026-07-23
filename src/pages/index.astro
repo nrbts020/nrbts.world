@@ -42,6 +42,14 @@
 	<body>
 		<canvas id="scene-canvas"></canvas>
 
+		<!-- Day-mode legibility pass (nrbts-daymode-handoff.md item 2): a
+		     fixed veil between the skyline and the scrolling content, quieting
+		     the buildings behind the reading sections without touching the
+		     scene itself. Lives at html[data-sky="day"] — see the script
+		     block below for how that attribute gets set — so it has zero
+		     effect (no background, no backdrop-filter cost) at night. -->
+		<div class="content-veil" aria-hidden="true"></div>
+
 		<nav class="site-nav" aria-label="Section navigation">
 			<a href="#about">about</a>
 			<a href="#projects">projects</a>
@@ -57,6 +65,7 @@
 
 		<main class="content">
 			<section class="hero">
+				<div class="hero-scrim" aria-hidden="true"></div>
 				<p class="mono eyebrow">PORTFOLIO</p>
 				<h1 class="capability-stack">
 					<span>creative production</span>
@@ -401,16 +410,42 @@
 
 		<script>
 			import { initScene } from '../scene/scene';
+			// Read-only reuse of sky.ts's pure day-factor math (day-mode-handoff
+			// item 1/2) — does NOT touch scene.ts, city/haze/moon geometry, or
+			// night rendering. This only drives a CSS attribute on <html> so the
+			// content-layer overlays below know whether to show themselves.
+			import { dayFactor, hoursOf } from '../scene/sky';
 
 			const canvas = document.getElementById('scene-canvas') as HTMLCanvasElement;
 			if (canvas) {
 				const handle = initScene(canvas);
+
+				// Mirrors scene.ts's own override dates (day=13:00, night=01:00)
+				// so the CSS overlays agree with what's actually on screen.
+				function effectiveDateFor(mode: 'live' | 'day' | 'night'): Date {
+					if (mode === 'live') return new Date();
+					const d = new Date();
+					d.setHours(mode === 'day' ? 13 : 1, 0, 0, 0);
+					return d;
+				}
+				function applySkyAttr(mode: 'live' | 'day' | 'night') {
+					const factor = dayFactor(hoursOf(effectiveDateFor(mode)));
+					document.documentElement.dataset.sky = factor >= 0.5 ? 'day' : 'night';
+				}
+
+				let currentMode: 'live' | 'day' | 'night' = 'live';
+				applySkyAttr(currentMode);
+				// Re-check periodically so "Live" mode still crosses over at real
+				// dawn/dusk during a long visit, without any per-frame cost.
+				setInterval(() => applySkyAttr(currentMode), 60000);
 
 				const buttons = document.querySelectorAll<HTMLButtonElement>('.time-toggle button');
 				buttons.forEach((button) => {
 					button.addEventListener('click', () => {
 						const mode = button.dataset.mode as 'live' | 'day' | 'night';
 						handle.setTimeOverride(mode);
+						currentMode = mode;
+						applySkyAttr(mode);
 						buttons.forEach((b) => b.classList.toggle('active', b === button));
 					});
 				});
@@ -486,6 +521,20 @@
 				--nav-text: rgba(255, 241, 236, 0.85);
 				--nav-active-bg: rgba(255, 255, 255, 0.88);
 				--nav-active-text: #c81e1e;
+
+				/* Day-mode legibility pass (nrbts-daymode-handoff.md item 3):
+				   the one unified "glass" card material for panel-body/project-
+				   card, replacing what used to be slightly different treatments
+				   on each. Applies regardless of day/night — it's a content-
+				   layer material choice, not a scene effect — so it's separate
+				   from the --panel-* variables above, which other elements
+				   (resume-link, contact list, dividers) still use unchanged. */
+				--glass-bg: rgba(248, 251, 254, 0.84);
+				--glass-border: rgba(255, 255, 255, 0.72);
+				--glass-shadow: 0 22px 50px -26px rgba(8, 24, 48, 0.6);
+				--glass-title: #1a2430;
+				--glass-meta: #159e8b;
+				--glass-body: #4a5560;
 			}
 
 			html {
@@ -578,11 +627,31 @@
 				color: #fff;
 			}
 
+			/* Day-mode legibility pass (item 2): a fixed veil between the
+			   skyline and the scrollable content, quieting the buildings so
+			   they frame the reading sections instead of competing with them.
+			   Night is untouched — base state has no background/filter at
+			   all, so it costs nothing when html[data-sky] isn't "day". */
+			.content-veil {
+				position: fixed;
+				inset: 0;
+				z-index: 1;
+				pointer-events: none;
+				background: transparent;
+			}
+			html[data-sky="day"] .content-veil {
+				background: rgba(18, 42, 76, 0.28);
+				backdrop-filter: blur(2.5px);
+				-webkit-backdrop-filter: blur(2.5px);
+			}
+
 			/* Content sits above the fixed canvas in normal document flow — this
-			   is what actually gives the page scrollable height. */
+			   is what actually gives the page scrollable height. Bumped above
+			   .content-veil (z-index 1) so the veil sits between skyline and
+			   content, per item 2. */
 			.content {
 				position: relative;
-				z-index: 1;
+				z-index: 2;
 			}
 
 			.hero {
@@ -596,13 +665,42 @@
 				padding: 24px max(24px, env(safe-area-inset-left));
 				max-width: 780px;
 			}
+			/* Day-mode legibility pass (item 1): darkening scrim behind the
+			   headline. Day sky is light, so white text had almost no
+			   contrast; this sits above the parallaxing skyline but below the
+			   text, on the content layer, so it doesn't move with the scene.
+			   Off at night (already has contrast against the dark sky). */
+			.hero-scrim {
+				position: absolute;
+				inset: 0;
+				pointer-events: none;
+				opacity: 0;
+				background:
+					radial-gradient(150% 110% at -5% 105%,
+						rgba(6, 18, 34, 0.78) 0%,
+						rgba(6, 18, 34, 0.5) 26%,
+						rgba(6, 18, 34, 0.18) 48%,
+						rgba(6, 18, 34, 0) 66%),
+					linear-gradient(0deg, rgba(6, 18, 34, 0.35) 0%, rgba(6, 18, 34, 0) 16%);
+				transition: opacity 0.6s ease;
+			}
+			html[data-sky="day"] .hero-scrim {
+				opacity: 1;
+			}
 			.eyebrow {
+				position: relative;
 				color: var(--teal-bright);
 				letter-spacing: 0.16em;
 				font-size: 12px;
 				margin: 0;
 			}
+			/* A touch brighter over the day scrim than the night-tuned
+			   --teal-bright reads as. */
+			html[data-sky="day"] .eyebrow {
+				color: #8fecdd;
+			}
 			.capability-stack {
+				position: relative; /* paint above .hero-scrim (also positioned, earlier in DOM) */
 				margin: 0;
 				display: flex;
 				flex-direction: column;
@@ -721,18 +819,24 @@
 			   plus a backdrop blur lets the scene show through softly while
 			   keeping text legible whether it's a bright day sky or a dark
 			   neon night behind it. */
+			/* Day-mode legibility pass (item 3): one unified glass material —
+			   see --glass-* in :root — replacing what used to be a slightly
+			   different treatment here than on .project-card below. Applies
+			   day and night alike; it's a material choice, not a scene
+			   effect, so --panel-* stays untouched for the elements
+			   (resume-link, contact list, dividers) that still key off it. */
 			.panel-body {
-				background: var(--panel-bg);
-				color: var(--panel-text);
-				border: 1px solid var(--panel-border);
+				background: var(--glass-bg);
+				color: var(--glass-title);
+				border: 1px solid var(--glass-border);
 				clip-path: polygon(0 0, calc(100% - var(--cut)) 0, 100% var(--cut), 100% 100%, 0 100%);
 				padding: 32px;
-				backdrop-filter: blur(16px);
-				-webkit-backdrop-filter: blur(16px);
-				box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+				backdrop-filter: blur(10px);
+				-webkit-backdrop-filter: blur(10px);
+				box-shadow: var(--glass-shadow);
 			}
 			.prose p {
-				color: var(--panel-text-dim);
+				color: var(--glass-body);
 				line-height: 1.65;
 				max-width: 68ch;
 			}
@@ -755,14 +859,14 @@
 				align-items: start;
 			}
 			.project-card {
-				background: var(--panel-bg);
-				color: var(--panel-text);
-				border: 1px solid var(--panel-border);
-				clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 0 100%);
+				background: var(--glass-bg);
+				color: var(--glass-title);
+				border: 1px solid var(--glass-border);
+				clip-path: polygon(0 0, calc(100% - var(--cut)) 0, 100% var(--cut), 100% 100%, 0 100%);
 				padding: 20px;
-				backdrop-filter: blur(14px);
-				-webkit-backdrop-filter: blur(14px);
-				box-shadow: 0 8px 22px rgba(0, 0, 0, 0.3);
+				backdrop-filter: blur(10px);
+				-webkit-backdrop-filter: blur(10px);
+				box-shadow: var(--glass-shadow);
 			}
 			.project-card h3 {
 				margin: 0 0 6px;
@@ -784,13 +888,13 @@
 				vertical-align: middle;
 			}
 			.proj-meta {
-				color: var(--teal);
+				color: var(--glass-meta);
 				font-size: 11px;
 				letter-spacing: 0.04em;
 				margin: 0 0 10px;
 			}
 			.project-card p:not(.proj-meta) {
-				color: var(--panel-text-dim);
+				color: var(--glass-body);
 				margin: 0;
 				font-size: 0.92rem;
 				line-height: 1.5;
