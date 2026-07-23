@@ -42,13 +42,31 @@
 	<body>
 		<canvas id="scene-canvas"></canvas>
 
-		<!-- Day-mode legibility pass (nrbts-daymode-handoff.md item 2): a
-		     fixed veil between the skyline and the scrolling content, quieting
-		     the buildings behind the reading sections without touching the
-		     scene itself. Lives at html[data-sky="day"] — see the script
-		     block below for how that attribute gets set — so it has zero
-		     effect (no background, no backdrop-filter cost) at night. -->
-		<div class="content-veil" aria-hidden="true"></div>
+		<!-- Day-mode haze (handoff v2): soft light fog puffs layered in
+		     front of the skyline — pooled around the building bases, threaded
+		     through the gaps between towers, with a couple of softer puffs
+		     behind the hero headline. Replaces v1's opaque dark scrim/veil:
+		     contrast now comes from pale atmosphere, the way real fog does,
+		     not from tinting the scene dark. Fixed layer at z-index 1 (skyline
+		     canvas below at 0, content above at 2), day-mode only via
+		     html[data-sky="day"], and given its own slow eased drift in the
+		     script block so it reads as a separate depth from the
+		     mouse-parallaxed buildings. Overscan inset (-60px) hides the
+		     layer's own edges as it drifts. -->
+		<div class="fog-layer" aria-hidden="true">
+			<span class="fog-puff fog-puff--hi" style="left:3%;top:15%;width:460px;height:150px;opacity:.36;filter:blur(11px)"></span>
+			<span class="fog-puff fog-puff--hi" style="left:13%;top:24%;width:360px;height:120px;opacity:.32;filter:blur(10px)"></span>
+			<span class="fog-puff" style="left:-2%;top:70%;width:500px;height:158px;opacity:.6;filter:blur(9px)"></span>
+			<span class="fog-puff" style="left:17%;top:79%;width:400px;height:132px;opacity:.55;filter:blur(8px)"></span>
+			<span class="fog-puff fog-puff--hi" style="left:33%;top:64%;width:300px;height:100px;opacity:.48;filter:blur(9px)"></span>
+			<span class="fog-puff" style="left:43%;top:81%;width:470px;height:150px;opacity:.6;filter:blur(8px)"></span>
+			<span class="fog-puff fog-puff--hi" style="left:57%;top:54%;width:260px;height:90px;opacity:.42;filter:blur(10px)"></span>
+			<span class="fog-puff" style="left:65%;top:77%;width:430px;height:140px;opacity:.58;filter:blur(8px)"></span>
+			<span class="fog-puff" style="left:80%;top:67%;width:340px;height:112px;opacity:.5;filter:blur(9px)"></span>
+			<span class="fog-puff" style="left:87%;top:82%;width:430px;height:142px;opacity:.6;filter:blur(8px)"></span>
+			<span class="fog-puff fog-puff--hi" style="left:27%;top:47%;width:220px;height:80px;opacity:.38;filter:blur(11px)"></span>
+			<span class="fog-puff fog-puff--hi" style="left:72%;top:43%;width:200px;height:74px;opacity:.36;filter:blur(11px)"></span>
+		</div>
 
 		<nav class="site-nav" aria-label="Section navigation">
 			<a href="#about">about</a>
@@ -65,7 +83,6 @@
 
 		<main class="content">
 			<section class="hero">
-				<div class="hero-scrim" aria-hidden="true"></div>
 				<p class="mono eyebrow">PORTFOLIO</p>
 				<h1 class="capability-stack">
 					<span>creative production</span>
@@ -451,6 +468,40 @@
 				});
 			}
 
+			// Independent day-mode fog drift (handoff v2 §2). The buildings
+			// already parallax with the mouse inside the Three.js scene — that
+			// stays untouched. This gives the CSS fog layer its OWN slower,
+			// eased, inverted drift so the two layers read as distinct depths
+			// rather than one clumsy layer moving together. The easing is the
+			// CSS `transition: transform` on .fog-layer; here we just set the
+			// target transform. Gated to fine pointers with motion allowed, so
+			// touch devices (and reduced-motion users) leave the fog static —
+			// no per-frame or per-move cost on mobile, per the perf constraint.
+			const fog = document.querySelector<HTMLElement>('.fog-layer');
+			const canDrift =
+				matchMedia('(pointer: fine)').matches &&
+				!matchMedia('(prefers-reduced-motion: reduce)').matches;
+			if (fog && canDrift) {
+				const FOG_RANGE = 26; // px of max drift at the screen edges
+				let raf = 0;
+				window.addEventListener(
+					'pointermove',
+					(e) => {
+						if (raf) return; // coalesce to one update per frame
+						raf = requestAnimationFrame(() => {
+							raf = 0;
+							const nx = e.clientX / window.innerWidth - 0.5; // -0.5..0.5
+							const ny = e.clientY / window.innerHeight - 0.5;
+							// Inverted from the cursor (reads more like atmosphere
+							// than a skyline rigidly tracking the mouse); vertical
+							// drift is damped so the bank mostly slides sideways.
+							fog.style.transform = `translate(${-nx * FOG_RANGE}px, ${-ny * FOG_RANGE * 0.5}px)`;
+						});
+					},
+					{ passive: true }
+				);
+			}
+
 			// Lightweight YouTube "click to load" facade: shows just a static
 			// thumbnail + play glyph until clicked, so visiting the page never
 			// pulls in YouTube's embed JS/iframe cost unless the visitor
@@ -627,28 +678,46 @@
 				color: #fff;
 			}
 
-			/* Day-mode legibility pass (item 2): a fixed veil between the
-			   skyline and the scrollable content, quieting the buildings so
-			   they frame the reading sections instead of competing with them.
-			   Night is untouched — base state has no background/filter at
-			   all, so it costs nothing when html[data-sky] isn't "day". */
-			.content-veil {
+			/* Day-mode haze (handoff v2): the fog layer sits between the
+			   skyline canvas (z 0) and the content (z 2). Fixed, so it stays
+			   with the fixed scene canvas as the page scrolls. Overscan inset
+			   (-60px) gives the drift room without exposing hard edges.
+			   Day-mode only — opacity 0 at night, so it's invisible and its
+			   blurred puffs cost nothing when html[data-sky] isn't "day". */
+			.fog-layer {
 				position: fixed;
-				inset: 0;
+				inset: -60px;
 				z-index: 1;
 				pointer-events: none;
-				background: transparent;
+				opacity: 0;
+				transition: opacity 0.6s ease, transform 0.5s ease-out;
+				will-change: transform;
 			}
-			html[data-sky="day"] .content-veil {
-				background: rgba(18, 42, 76, 0.28);
-				backdrop-filter: blur(2.5px);
-				-webkit-backdrop-filter: blur(2.5px);
+			html[data-sky="day"] .fog-layer {
+				opacity: 1;
+			}
+			/* Each puff is a soft, flattened radial white blob; the per-puff
+			   size / position / opacity / blur are set inline in the markup so
+			   the bank reads as scattered depth rather than one flat pane. */
+			.fog-puff {
+				position: absolute;
+				border-radius: 50%;
+				background: radial-gradient(closest-side, rgba(255, 255, 255, 0.75) 0%, rgba(255, 255, 255, 0) 72%);
+				pointer-events: none;
+			}
+			/* Thin the bank on small screens (perf): drop the higher, wispier
+			   accents and keep just the base-level fog. Mobile also has no
+			   pointer drift, so the layer stays fully static there. */
+			@media (max-width: 640px) {
+				.fog-puff--hi {
+					display: none;
+				}
 			}
 
 			/* Content sits above the fixed canvas in normal document flow — this
 			   is what actually gives the page scrollable height. Bumped above
-			   .content-veil (z-index 1) so the veil sits between skyline and
-			   content, per item 2. */
+			   the fog layer (z-index 1) so the fog sits between skyline and
+			   content. */
 			.content {
 				position: relative;
 				z-index: 2;
@@ -665,44 +734,10 @@
 				padding: 24px max(24px, env(safe-area-inset-left));
 				max-width: 780px;
 			}
-			/* Day-mode legibility pass (item 1): darkening scrim behind the
-			   headline. Day sky is light, so white text had almost no
-			   contrast; this sits above the parallaxing skyline but below the
-			   text, on the content layer, so it doesn't move with the scene.
-			   Off at night (already has contrast against the dark sky).
-
-			   Sized to the full viewport width, NOT .hero's own box — .hero
-			   is capped at max-width:780px (a narrow left-aligned text
-			   column), and the radial-gradient's percentage-based size/
-			   position are computed against whatever box it's clipped to.
-			   Left at inset:0 it was fading against that 780px box, so the
-			   gradient hit the box's hard right edge before its alpha
-			   actually reached zero — a visible "cut" instead of a smooth
-			   dissolve into the sky. The left:50%/-50vw margin trick breaks
-			   it out to full viewport width while top/bottom stay pinned to
-			   .hero's own height, so it still scrolls away with the hero
-			   section rather than sticking around like .content-veil does. */
-			.hero-scrim {
-				position: absolute;
-				top: 0;
-				bottom: 0;
-				left: 50%;
-				width: 100vw;
-				margin-left: -50vw;
-				pointer-events: none;
-				opacity: 0;
-				background:
-					radial-gradient(60% 85% at 8% 100%,
-						rgba(6, 18, 34, 0.72) 0%,
-						rgba(6, 18, 34, 0.42) 35%,
-						rgba(6, 18, 34, 0.14) 62%,
-						rgba(6, 18, 34, 0) 85%),
-					linear-gradient(0deg, rgba(6, 18, 34, 0.3) 0%, rgba(6, 18, 34, 0) 20%);
-				transition: opacity 0.6s ease;
-			}
-			html[data-sky="day"] .hero-scrim {
-				opacity: 1;
-			}
+			/* The v1 dark hero scrim was removed here (handoff v2) — the fog
+			   layer above now supplies day-mode contrast via pale atmosphere
+			   rather than an opaque dark wash. Headline gets a soft day-mode
+			   text-shadow further down instead. */
 			.eyebrow {
 				position: relative;
 				color: var(--teal-bright);
@@ -710,13 +745,13 @@
 				font-size: 12px;
 				margin: 0;
 			}
-			/* A touch brighter over the day scrim than the night-tuned
+			/* A touch brighter over the day fog than the night-tuned
 			   --teal-bright reads as. */
 			html[data-sky="day"] .eyebrow {
 				color: #8fecdd;
 			}
 			.capability-stack {
-				position: relative; /* paint above .hero-scrim (also positioned, earlier in DOM) */
+				position: relative; /* sits above the fixed fog layer behind it */
 				margin: 0;
 				display: flex;
 				flex-direction: column;
@@ -731,6 +766,13 @@
 			}
 			.capability-stack .accent {
 				color: var(--teal-bright);
+			}
+			/* Day-mode headline contrast (handoff v2 §1): the fog behind the
+			   text pales the backdrop; a soft dark halo then lifts the light
+			   headline off it, no full-layer dark wash needed. Night keeps the
+			   plain headline — already high-contrast on the dark sky. */
+			html[data-sky="day"] .capability-stack span {
+				text-shadow: 0 2px 18px rgba(18, 34, 52, 0.3);
 			}
 			/* Sits in the open sky between the fixed nav and the title line
 			   (moved up from the bottom per feedback — down at the bottom it

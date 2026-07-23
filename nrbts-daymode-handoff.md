@@ -1,64 +1,86 @@
-# nrbts.world — day-mode legibility fixes
+# nrbts.world — day-mode legibility fixes (v2: haze, not dark veil)
 
-Three targeted changes. **Do not touch the night scene or the Three.js skyline
-geometry / parallax.** Everything here is a CSS overlay on the content layer, so
-it stays anchored to the text while the skyline parallaxes underneath.
+**Supersedes v1.** We're dropping the opaque dark scrim/veil from the first pass
+— it made day mode too dark overall. Replace it with a light **haze/fog layer**
+that provides contrast the same way real fog does: by sitting between the
+viewer and the buildings, not by tinting the whole scene dark.
 
-Colors used below match the existing palette (teal `#74e0d0`, coral `#e79079`,
-dark blue-ink `#0e1116` / `rgba(6,18,34,·)`).
+**Do not touch the night scene or the Three.js skyline geometry.** Everything
+here is additive layers in day mode only.
+
+Colors: teal `#74e0d0` / `#8fecdd`, coral `#e79079`, fog white `#ffffff` /
+`rgba(238,244,248,·)`.
 
 ---
 
-## 1. Hero — editorial scrim (day mode only)
+## 1. Replace the hero scrim with haze
 
-The white headline currently has almost no contrast against the light day sky.
-Add a single darkening layer **above the skyline, below the text**. Because it
-lives on the content layer, it does not move with the parallax.
+Remove the old dark `.hero-scrim` radial/linear gradient entirely. Contrast for
+the headline should now come from **fog density placed behind the text**, not
+from an opaque dark layer over the whole hero. See section 2 for the fog
+system — place denser puffs behind the headline's bounding box specifically
+(e.g. a couple of larger, higher-opacity puffs centered around the text block),
+rather than any full-bleed dark wash.
+
+If the headline still needs a touch more contrast than fog alone gives, prefer
+a subtle text-shadow (e.g. `0 2px 16px rgba(255,255,255,.4)` for dark-on-light
+antialiasing, or a light `rgba(20,40,60,.25)` shadow if the text sits on a
+brighter patch of sky) over any full-layer darkening.
+
+## 2. Content sections — fog/haze layer instead of dark veil
+
+Behind the projects / skills / contact content, replace `.content-veil` (the
+flat `rgba(18,42,76,.28)` + blur wash) with **layered soft cloud puffs** that
+sit in front of the buildings, pooled loosely around their bases and in the
+gaps between towers — like fog banks in a skyline photo, not a tinted pane of
+glass.
+
+Approach (adjust to taste against the real scene):
 
 ```css
-.hero-scrim {            /* absolutely positioned, fills the hero, day mode only */
+.fog-puff {
   position: absolute;
-  inset: 0;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(255,255,255,0.6) 0%, rgba(255,255,255,0) 72%);
+  filter: blur(8px);
   pointer-events: none;
-  background:
-    radial-gradient(150% 110% at -5% 105%,
-      rgba(6,18,34,.78) 0%,
-      rgba(6,18,34,.50) 26%,
-      rgba(6,18,34,.18) 48%,
-      rgba(6,18,34,0)  66%),
-    linear-gradient(0deg, rgba(6,18,34,.35) 0%, rgba(6,18,34,0) 16%);
 }
 ```
 
-- The radial wash sits behind the bottom-left headline; the second linear
-  gradient seats the bottom toggle bar.
-- Fade `.hero-scrim` opacity to 0 as the scene transitions to night (night
-  already has contrast and doesn't need it).
-- Keep the eyebrow / "spatial design" accent a touch brighter teal on day:
-  `#8fecdd` reads better than `#74e0d0` over the wash.
+- Generate ~10–14 puffs of varying size (180–500px wide, flattened ~3:1
+  width:height), opacity (.45–.65), and blur (7–11px), scattered at a couple of
+  height bands between the towers — not one flat layer.
+- This is the **4b "drifting haze pockets"** direction: wispy, threaded between
+  buildings at varied heights, skyline still visible through the gaps. Keep the
+  overall page value **light** — fog should read as atmosphere, not a dimmer.
+- Text sitting over the fog gets its contrast from the fog itself (denser/more
+  opaque puffs directly behind copy blocks) plus the existing glass card
+  material (section 3) — not from any additional dark tint layer.
 
-## 2. Content sections — push the skyline back (light recede)
+### Motion — fog moves independently from the buildings
 
-Behind the projects / skills / contact content, add a veil layer between the
-skyline and the content so the buildings frame rather than compete.
+The buildings already parallax with the mouse (existing behavior, unchanged).
+Give the fog layer its **own, slower, eased drift** so the two layers read as
+distinct depths rather than one clumsy layer moving together:
 
-```css
-.content-veil {         /* fixed, behind content, above skyline */
-  position: fixed;
-  inset: 0;
-  z-index: 1;           /* skyline below, content above */
-  pointer-events: none;
-  background: rgba(18,42,76,.28);
-  backdrop-filter: blur(2.5px);
-  -webkit-backdrop-filter: blur(2.5px);
+```js
+// buildings: existing full-speed mouse parallax, unchanged
+// fog: slower, eased, independent motion
+const FOG_SPEED = 0.2;      // fraction of buildings' mouse-delta speed
+const FOG_EASE_MS = 500;    // longer ease so fog feels like drift, not tracking
+
+function updateFog(mouseX) {
+  fogTargetX = mouseX * FOG_SPEED;
+  // ease fogCurrentX toward fogTargetX over FOG_EASE_MS (e.g. lerp per frame,
+  // or a CSS transition on transform if fog is a single translated container)
 }
 ```
 
-- This is the **light recede** option (blur 2.5 / wash .28) — keeps the skyline
-  present but quiet.
-- Optional polish: ramp the alpha from ~.12 to ~.28 as the user scrolls past the
-  hero (tie to scroll progress), so the skyline is vivid at the top and calms
-  under the reading content.
+- Building layer: current behavior, no change.
+- Fog layer: ~0.15–0.3x the buildings' mouse-delta speed, with a longer
+  ease/lag (~400–600ms) so it visibly drifts rather than snapping to the
+  cursor. Direction can match or invert the buildings' movement — try both,
+  inverted reads slightly more natural for atmosphere vs. a rigid skyline.
 
 ## 3. One card / panel material
 
@@ -85,3 +107,5 @@ on the light fill), body `#4a5560`.
 - `backdrop-filter` needs the `-webkit-` prefix for Safari; test there.
 - These were prototyped against a CSS stand-in skyline, so nudge blur/opacity to
   taste against the real Three.js render.
+- Please remove the old opaque dark scrim/veil from the previous pass — the
+  haze is the contrast mechanism now, not a dark tint.
