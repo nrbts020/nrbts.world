@@ -54,6 +54,7 @@
 		     mouse-parallaxed buildings. Overscan inset (-60px) hides the
 		     layer's own edges as it drifts. -->
 		<div class="fog-layer" aria-hidden="true">
+			<div class="fog-drift">
 			<span class="fog-puff fog-puff--hi" style="left:3%;top:15%;width:480px;height:158px;opacity:.5;filter:blur(11px)"></span>
 			<span class="fog-puff fog-puff--hi" style="left:13%;top:24%;width:380px;height:128px;opacity:.46;filter:blur(10px)"></span>
 			<span class="fog-puff" style="left:-2%;top:70%;width:520px;height:166px;opacity:.82;filter:blur(9px)"></span>
@@ -66,6 +67,7 @@
 			<span class="fog-puff" style="left:87%;top:82%;width:450px;height:150px;opacity:.82;filter:blur(8px)"></span>
 			<span class="fog-puff fog-puff--hi" style="left:27%;top:47%;width:240px;height:86px;opacity:.5;filter:blur(11px)"></span>
 			<span class="fog-puff fog-puff--hi" style="left:72%;top:43%;width:220px;height:80px;opacity:.48;filter:blur(11px)"></span>
+			</div>
 		</div>
 
 		<nav class="site-nav" aria-label="Section navigation">
@@ -725,6 +727,31 @@
 				.fog-puff--hi {
 					display: none;
 				}
+			}
+
+			/* Autonomous cloud drift: the whole puff bank slides slowly
+			   sideways on its own so the haze reads as moving even with the
+			   cursor still (and on touch, where the pointer drift below is
+			   off). This is an inner wrapper so it composes with .fog-layer's
+			   own pointer-driven transform — parent = mouse response, child =
+			   ambient drift. Gated to day mode (no work when the fog is
+			   invisible at night) and to motion-OK users. The +/-38px sweep
+			   stays within .fog-layer's -60px overscan so no hard edge shows.
+			   Tune the duration (lower = faster clouds). */
+			.fog-drift {
+				position: absolute;
+				inset: 0;
+				will-change: transform;
+			}
+			html[data-sky="day"] .fog-drift {
+				animation: fogDrift 19s ease-in-out infinite alternate;
+			}
+			@keyframes fogDrift {
+				from { transform: translateX(-38px); }
+				to { transform: translateX(38px); }
+			}
+			@media (prefers-reduced-motion: reduce) {
+				html[data-sky="day"] .fog-drift { animation: none; }
 			}
 
 			/* Content sits above the fixed canvas in normal document flow — this
