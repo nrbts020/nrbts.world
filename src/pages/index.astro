@@ -54,18 +54,18 @@
 		     mouse-parallaxed buildings. Overscan inset (-60px) hides the
 		     layer's own edges as it drifts. -->
 		<div class="fog-layer" aria-hidden="true">
-			<span class="fog-puff fog-puff--hi" style="left:3%;top:15%;width:460px;height:150px;opacity:.36;filter:blur(11px)"></span>
-			<span class="fog-puff fog-puff--hi" style="left:13%;top:24%;width:360px;height:120px;opacity:.32;filter:blur(10px)"></span>
-			<span class="fog-puff" style="left:-2%;top:70%;width:500px;height:158px;opacity:.6;filter:blur(9px)"></span>
-			<span class="fog-puff" style="left:17%;top:79%;width:400px;height:132px;opacity:.55;filter:blur(8px)"></span>
-			<span class="fog-puff fog-puff--hi" style="left:33%;top:64%;width:300px;height:100px;opacity:.48;filter:blur(9px)"></span>
-			<span class="fog-puff" style="left:43%;top:81%;width:470px;height:150px;opacity:.6;filter:blur(8px)"></span>
-			<span class="fog-puff fog-puff--hi" style="left:57%;top:54%;width:260px;height:90px;opacity:.42;filter:blur(10px)"></span>
-			<span class="fog-puff" style="left:65%;top:77%;width:430px;height:140px;opacity:.58;filter:blur(8px)"></span>
-			<span class="fog-puff" style="left:80%;top:67%;width:340px;height:112px;opacity:.5;filter:blur(9px)"></span>
-			<span class="fog-puff" style="left:87%;top:82%;width:430px;height:142px;opacity:.6;filter:blur(8px)"></span>
-			<span class="fog-puff fog-puff--hi" style="left:27%;top:47%;width:220px;height:80px;opacity:.38;filter:blur(11px)"></span>
-			<span class="fog-puff fog-puff--hi" style="left:72%;top:43%;width:200px;height:74px;opacity:.36;filter:blur(11px)"></span>
+			<span class="fog-puff fog-puff--hi" style="left:3%;top:15%;width:480px;height:158px;opacity:.5;filter:blur(11px)"></span>
+			<span class="fog-puff fog-puff--hi" style="left:13%;top:24%;width:380px;height:128px;opacity:.46;filter:blur(10px)"></span>
+			<span class="fog-puff" style="left:-2%;top:70%;width:520px;height:166px;opacity:.82;filter:blur(9px)"></span>
+			<span class="fog-puff" style="left:17%;top:79%;width:420px;height:140px;opacity:.76;filter:blur(8px)"></span>
+			<span class="fog-puff fog-puff--hi" style="left:33%;top:64%;width:320px;height:106px;opacity:.62;filter:blur(9px)"></span>
+			<span class="fog-puff" style="left:43%;top:81%;width:490px;height:158px;opacity:.82;filter:blur(8px)"></span>
+			<span class="fog-puff fog-puff--hi" style="left:57%;top:54%;width:280px;height:96px;opacity:.56;filter:blur(10px)"></span>
+			<span class="fog-puff" style="left:65%;top:77%;width:450px;height:148px;opacity:.78;filter:blur(8px)"></span>
+			<span class="fog-puff" style="left:80%;top:67%;width:360px;height:120px;opacity:.7;filter:blur(9px)"></span>
+			<span class="fog-puff" style="left:87%;top:82%;width:450px;height:150px;opacity:.82;filter:blur(8px)"></span>
+			<span class="fog-puff fog-puff--hi" style="left:27%;top:47%;width:240px;height:86px;opacity:.5;filter:blur(11px)"></span>
+			<span class="fog-puff fog-puff--hi" style="left:72%;top:43%;width:220px;height:80px;opacity:.48;filter:blur(11px)"></span>
 		</div>
 
 		<nav class="site-nav" aria-label="Section navigation">
@@ -495,7 +495,7 @@
 				matchMedia('(pointer: fine)').matches &&
 				!matchMedia('(prefers-reduced-motion: reduce)').matches;
 			if (fog && canDrift) {
-				const FOG_RANGE = 26; // px of max drift at the screen edges
+				const FOG_RANGE = 48; // px of max drift at the screen edges
 				let raf = 0;
 				window.addEventListener(
 					'pointermove',
@@ -715,7 +715,7 @@
 			.fog-puff {
 				position: absolute;
 				border-radius: 50%;
-				background: radial-gradient(closest-side, rgba(255, 255, 255, 0.75) 0%, rgba(255, 255, 255, 0) 72%);
+				background: radial-gradient(closest-side, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.5) 42%, rgba(255, 255, 255, 0) 78%);
 				pointer-events: none;
 			}
 			/* Thin the bank on small screens (perf): drop the higher, wispier
