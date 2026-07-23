@@ -65,6 +65,22 @@ interface LayerConfig {
   pulsePhase: number;
 }
 
+// --- global skyline motion tuning -------------------------------------------
+// Single dials layered over the per-layer parallax/drift below, so the whole
+// skyline's liveliness can be tuned (or stilled) from one place without
+// disturbing each layer's relative depth ratios.
+//
+// POINTER_PARALLAX_SCALE scales how much the buildings react to the cursor:
+//   1   = original full-speed parallax
+//   0.45 = current — a calmer skyline that reacts less, letting the day-mode
+//          fog (which keeps its own inverted drift, see index.astro) read as
+//          the primary motion against a near-still city
+//   0   = buildings fully static to the pointer (fog does all the moving)
+// AMBIENT_DRIFT_SCALE scales the constant, input-independent creep (0 = none).
+// Both apply in day and night alike — this is the shared parallax path.
+const POINTER_PARALLAX_SCALE = 0.45;
+const AMBIENT_DRIFT_SCALE = 1;
+
 const LAYERS: LayerConfig[] = [
   {
     dayUrl: '/textures/city/city_far_day.png',
@@ -245,8 +261,8 @@ export function createCityLayers(): CityLayers {
     smoothedPointer += (pointerX - smoothedPointer) * Math.min(1, dtSeconds * 4);
 
     for (const layer of layers) {
-      const drift = elapsed * layer.config.driftSpeed;
-      const parallax = smoothedPointer * layer.config.parallaxStrength;
+      const drift = elapsed * layer.config.driftSpeed * AMBIENT_DRIFT_SCALE;
+      const parallax = smoothedPointer * layer.config.parallaxStrength * POINTER_PARALLAX_SCALE;
       layer.material.uniforms.uOffset.value = drift + parallax;
       layer.material.uniforms.uDayFactor.value = dayFactor;
       layer.material.uniforms.uTime.value = elapsed;
