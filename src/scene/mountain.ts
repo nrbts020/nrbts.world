@@ -38,11 +38,11 @@ const FRAGMENT_SHADER = /* glsl */ `
 
   // --- shape (all in screen-space vUv, 0..1; y is 0=bottom, 1=top) ---------
   const float PEAK_X   = 0.58;  // horizontal position of the summit
-  const float PEAK_Y   = 0.74;  // screen height the summit reaches
+  const float PEAK_Y   = 0.48;  // screen height the summit reaches (stays below the tall towers)
   const float BASE_Y   = 0.28;  // screen height of the base/horizon (behind buildings)
-  const float HALF_W   = 0.72;  // half-width of the base, in aspect-corrected units
+  const float HALF_W   = 0.58;  // half-width of the base, in aspect-corrected units
   const float FLARE    = 0.82;  // <1 = concave Fuji flare (steep summit, flared skirt)
-  const float SNOW_FRAC= 0.60;  // fraction up the mountain where snow begins
+  const float SNOW_FRAC= 0.66;  // fraction up the mountain where snow begins
 
   void main() {
     float height = PEAK_Y - BASE_Y;
@@ -102,7 +102,7 @@ export function createMountain(): Mountain {
     uniforms: {
       uDayFactor: { value: 1 },
       uAspect: { value: 1 },
-      uOpacity: { value: 0.9 },
+      uOpacity: { value: 0.55 },
     },
     vertexShader: VERTEX_SHADER,
     fragmentShader: FRAGMENT_SHADER,
