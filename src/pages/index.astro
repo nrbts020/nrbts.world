@@ -669,19 +669,35 @@
 			   headline. Day sky is light, so white text had almost no
 			   contrast; this sits above the parallaxing skyline but below the
 			   text, on the content layer, so it doesn't move with the scene.
-			   Off at night (already has contrast against the dark sky). */
+			   Off at night (already has contrast against the dark sky).
+
+			   Sized to the full viewport width, NOT .hero's own box — .hero
+			   is capped at max-width:780px (a narrow left-aligned text
+			   column), and the radial-gradient's percentage-based size/
+			   position are computed against whatever box it's clipped to.
+			   Left at inset:0 it was fading against that 780px box, so the
+			   gradient hit the box's hard right edge before its alpha
+			   actually reached zero — a visible "cut" instead of a smooth
+			   dissolve into the sky. The left:50%/-50vw margin trick breaks
+			   it out to full viewport width while top/bottom stay pinned to
+			   .hero's own height, so it still scrolls away with the hero
+			   section rather than sticking around like .content-veil does. */
 			.hero-scrim {
 				position: absolute;
-				inset: 0;
+				top: 0;
+				bottom: 0;
+				left: 50%;
+				width: 100vw;
+				margin-left: -50vw;
 				pointer-events: none;
 				opacity: 0;
 				background:
-					radial-gradient(150% 110% at -5% 105%,
-						rgba(6, 18, 34, 0.78) 0%,
-						rgba(6, 18, 34, 0.5) 26%,
-						rgba(6, 18, 34, 0.18) 48%,
-						rgba(6, 18, 34, 0) 66%),
-					linear-gradient(0deg, rgba(6, 18, 34, 0.35) 0%, rgba(6, 18, 34, 0) 16%);
+					radial-gradient(60% 85% at 8% 100%,
+						rgba(6, 18, 34, 0.72) 0%,
+						rgba(6, 18, 34, 0.42) 35%,
+						rgba(6, 18, 34, 0.14) 62%,
+						rgba(6, 18, 34, 0) 85%),
+					linear-gradient(0deg, rgba(6, 18, 34, 0.3) 0%, rgba(6, 18, 34, 0) 20%);
 				transition: opacity 0.6s ease;
 			}
 			html[data-sky="day"] .hero-scrim {
