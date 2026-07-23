@@ -5,6 +5,7 @@ import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPa
 import { createSkyDome, dayFactor, hoursOf } from './sky';
 import { createCityLayers, attachPointerTracking } from './city';
 import { createGroundHaze } from './haze';
+import { createMountain } from './mountain';
 
 /**
  * Stage 3: day/night sky gradient dome (see ./sky.ts), driven by local
@@ -49,6 +50,11 @@ export function initScene(canvas: HTMLCanvasElement): SceneHandle {
   const sky = createSkyDome();
   sky.update(new Date());
   scene.add(sky.mesh);
+
+  // Distant Fuji/Hood silhouette — the single farthest layer, drawn just
+  // above the sky and behind every building (see ./mountain.ts).
+  const mountain = createMountain();
+  scene.add(mountain.mesh);
 
   const camera = new THREE.PerspectiveCamera(
     45,
@@ -142,6 +148,7 @@ export function initScene(canvas: HTMLCanvasElement): SceneHandle {
     // was authored for.
     city.resize(aspect);
     sky.resize(aspect);
+    mountain.resize(aspect);
   }
 
   const resizeObserver = new ResizeObserver(resize);
@@ -181,6 +188,7 @@ export function initScene(canvas: HTMLCanvasElement): SceneHandle {
     // once a second, but re-sending it every frame is free and keeps the
     // city's cross-fade shader in lockstep with the sky.
     city.update(dtSeconds, currentDayFactor);
+    mountain.update(currentDayFactor);
     // Milky Way animation (star twinkle, haze drift) needs a smooth running
     // clock too, independent of the once-a-second color update.
     sky.updateTime(elapsedTime);
@@ -197,6 +205,7 @@ export function initScene(canvas: HTMLCanvasElement): SceneHandle {
     detachPointerTracking();
     sky.dispose();
     city.dispose();
+    mountain.dispose();
     haze.dispose();
     bloomPass.dispose();
     composer.dispose();
