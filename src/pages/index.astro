@@ -57,14 +57,14 @@
 			<div class="fog-drift">
 			<span class="fog-puff fog-puff--hi" style="left:3%;top:15%;width:480px;height:158px;opacity:.5;filter:blur(11px)"></span>
 			<span class="fog-puff fog-puff--hi" style="left:13%;top:24%;width:380px;height:128px;opacity:.46;filter:blur(10px)"></span>
-			<span class="fog-puff" style="left:-2%;top:70%;width:520px;height:166px;opacity:.82;filter:blur(9px)"></span>
-			<span class="fog-puff" style="left:17%;top:79%;width:420px;height:140px;opacity:.76;filter:blur(8px)"></span>
+			<span class="fog-puff fog-puff--lo" style="left:-2%;top:70%;width:520px;height:166px;opacity:.82;filter:blur(9px)"></span>
+			<span class="fog-puff fog-puff--lo" style="left:17%;top:79%;width:420px;height:140px;opacity:.76;filter:blur(8px)"></span>
 			<span class="fog-puff fog-puff--hi" style="left:33%;top:64%;width:320px;height:106px;opacity:.62;filter:blur(9px)"></span>
-			<span class="fog-puff" style="left:43%;top:81%;width:490px;height:158px;opacity:.82;filter:blur(8px)"></span>
+			<span class="fog-puff fog-puff--lo" style="left:43%;top:81%;width:490px;height:158px;opacity:.82;filter:blur(8px)"></span>
 			<span class="fog-puff fog-puff--hi" style="left:57%;top:54%;width:280px;height:96px;opacity:.56;filter:blur(10px)"></span>
-			<span class="fog-puff" style="left:65%;top:77%;width:450px;height:148px;opacity:.78;filter:blur(8px)"></span>
-			<span class="fog-puff" style="left:80%;top:67%;width:360px;height:120px;opacity:.7;filter:blur(9px)"></span>
-			<span class="fog-puff" style="left:87%;top:82%;width:450px;height:150px;opacity:.82;filter:blur(8px)"></span>
+			<span class="fog-puff fog-puff--lo" style="left:65%;top:77%;width:450px;height:148px;opacity:.78;filter:blur(8px)"></span>
+			<span class="fog-puff fog-puff--lo" style="left:80%;top:67%;width:360px;height:120px;opacity:.7;filter:blur(9px)"></span>
+			<span class="fog-puff fog-puff--lo" style="left:87%;top:82%;width:450px;height:150px;opacity:.82;filter:blur(8px)"></span>
 			<span class="fog-puff fog-puff--hi" style="left:27%;top:47%;width:240px;height:86px;opacity:.5;filter:blur(11px)"></span>
 			<span class="fog-puff fog-puff--hi" style="left:72%;top:43%;width:220px;height:80px;opacity:.48;filter:blur(11px)"></span>
 			</div>
@@ -725,11 +725,14 @@
 				background: radial-gradient(closest-side, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.5) 42%, rgba(255, 255, 255, 0) 78%);
 				pointer-events: none;
 			}
-			/* Thin the bank on small screens (perf): drop the higher, wispier
-			   accents and keep just the base-level fog. Mobile also has no
-			   pointer drift, so the layer stays fully static there. */
+			/* Thin the bank on small screens (perf): drop the low puffs
+			   pooled at the building bases -- on a narrow phone they sit
+			   behind the dense skyline and the content anyway -- and keep
+			   the open-sky puffs, which are the ones actually visible on
+			   mobile. The autonomous drift still runs; only the desktop
+			   pointer-drift is off on touch. */
 			@media (max-width: 640px) {
-				.fog-puff--hi {
+				.fog-puff--lo {
 					display: none;
 				}
 			}
