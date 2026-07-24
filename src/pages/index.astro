@@ -51,7 +51,7 @@
 		     canvas below at 0, content above at 2), day-mode only via
 		     html[data-sky="day"], and given its own slow eased drift in the
 		     script block so it reads as a separate depth from the
-		     mouse-parallaxed buildings. Overscan inset (-60px) hides the
+		     mouse-parallaxed buildings. Overscan inset (-90px) hides the
 		     layer's own edges as it drifts. -->
 		<div class="fog-layer" aria-hidden="true">
 			<div class="fog-drift">
@@ -696,12 +696,12 @@
 			/* Day-mode haze (handoff v2): the fog layer sits between the
 			   skyline canvas (z 0) and the content (z 2). Fixed, so it stays
 			   with the fixed scene canvas as the page scrolls. Overscan inset
-			   (-60px) gives the drift room without exposing hard edges.
+			   (-90px) gives the drift room without exposing hard edges.
 			   Day-mode only — opacity 0 at night, so it's invisible and its
 			   blurred puffs cost nothing when html[data-sky] isn't "day". */
 			.fog-layer {
 				position: fixed;
-				inset: -60px;
+				inset: -90px;
 				z-index: 1;
 				pointer-events: none;
 				opacity: 0;
@@ -749,12 +749,12 @@
 			.fog-drift {
 				position: absolute;
 				inset: 0;
-				animation: fogDrift 15s ease-in-out infinite alternate;
+				animation: fogDrift 11s ease-in-out infinite alternate;
 				will-change: transform;
 			}
 			@keyframes fogDrift {
-				from { transform: translateX(-56px); }
-				to { transform: translateX(56px); }
+				from { transform: translateX(-80px); }
+				to { transform: translateX(80px); }
 			}
 			@media (prefers-reduced-motion: reduce) {
 				.fog-drift { animation: none; }
