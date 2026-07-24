@@ -114,27 +114,36 @@ const FRAGMENT_SHADER = /* glsl */ `
   // is no hard core.
   float starLayer(vec2 uv, float scale, float density, float size, float t) {
     vec2 gv = aspectCorrect(uv) * scale;
-    vec2 cell = floor(gv);
-    vec2 cellUv = fract(gv);
-    float h = hash(cell);
-    if (h < density) return 0.0;
-    vec2 jitter = hash2(cell + 11.0);
-    float d = length(cellUv - jitter);
-    float glow = smoothstep(size, 0.0, d);
-    glow *= glow;
-    float brightness = hash(cell + 5.0);
-    float twinkle = 0.82 + 0.18 * sin(t * (1.2 + brightness * 1.6) + brightness * 30.0);
-    return glow * (0.3 + 0.7 * brightness) * twinkle;
+    vec2 base = floor(gv);
+    vec2 f = fract(gv);
+    float acc = 0.0;
+    // Sample the 3x3 neighbourhood so each star's soft glow spills smoothly
+    // across cell borders instead of being clipped into a hard arc at the
+    // edge -- that's what lets the blobs be big and diffuse without artefacts.
+    for (int j = -1; j <= 1; j++) {
+      for (int i = -1; i <= 1; i++) {
+        vec2 cell = base + vec2(float(i), float(j));
+        if (hash(cell) < density) continue;
+        vec2 jitter = hash2(cell + 11.0);
+        float d = length(vec2(float(i), float(j)) + jitter - f);
+        float glow = smoothstep(size, 0.0, d);
+        glow = pow(glow, 0.7); // spread brightness outward -> soft, hazy blob
+        float brightness = hash(cell + 5.0);
+        float twinkle = 0.85 + 0.15 * sin(t * (1.0 + brightness * 1.4) + brightness * 30.0);
+        acc += glow * (0.22 + 0.5 * brightness) * twinkle;
+      }
+    }
+    return acc;
   }
 
-  // Three layers of decreasing density / increasing size for depth -- soft
-  // and diffuse throughout, a cool moonlit white to match the clouds.
+  // Two sparse layers of big, soft, low-contrast glows for a little depth --
+  // deliberately few and diffuse (soft even at the top of the sky), a cool
+  // moonlit white to match the clouds.
   vec3 starField(vec2 uv, float t) {
     float stars = 0.0;
-    stars += starLayer(uv, 820.0, 0.9975, 0.42, t) * 0.42;
-    stars += starLayer(uv, 480.0, 0.9955, 0.34, t + 4.0) * 0.62;
-    stars += starLayer(uv, 230.0, 0.9975, 0.26, t + 10.0) * 0.85;
-    return vec3(0.86, 0.90, 0.98) * stars;
+    stars += starLayer(uv, 150.0, 0.9988, 0.52, t) * 0.50;
+    stars += starLayer(uv, 260.0, 0.9990, 0.42, t + 5.0) * 0.36;
+    return vec3(0.85, 0.89, 0.98) * stars;
   }
 
   void main() {
